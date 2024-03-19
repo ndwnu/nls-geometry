@@ -1,0 +1,20 @@
+# IntelliJ IDE
+.idea
+*.iml
+
+# Eclipse IDE
+.settings/
+.project
+.classpath
+.checkstyle
+.factorypath
+
+# Build folder
+target
+
+
+# Log file
+*.log
+
+# MacOS
+.DS_Store

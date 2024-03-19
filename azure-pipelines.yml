@@ -1,0 +1,19 @@
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: nls-pipeline-templates
+      type: git
+      name: NLS/nls-pipeline-templates
+      ref: main
+
+extends:
+  template: azure-pipelines-java.yml@nls-pipeline-templates
+  parameters:
+    isVersionedProject: true
+    mavenReleaseGoal: deploy
+    sonarOptionalCoverageExclusions: '**/generated/**,**/security/**,**/config/**,**/properties/**,**/dtos/**,/example/**'
+    sonarOptionalExclusions: '**/generated/**'
+    mavenOptionalBuildOptions: '-Pregression-test'
+    mavenDeployToNdwShared: true
