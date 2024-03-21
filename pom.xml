@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>nls-geometry</name>
-    <description>NWB NLS Geometry parent</description>
+    <description>NWB NLS Geometry</description>
 
     <properties>
         <jts.version>1.19.0</jts.version>
