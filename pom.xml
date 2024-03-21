@@ -4,13 +4,6 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--    <parent>-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        &lt;!&ndash; Property is not allowed, please also update spring-boot.version property accordingly &ndash;&gt;-->
-    <!--        <version>3.2.3</version>-->
-    <!--    </parent>-->
-
     <groupId>nu.ndw.nls.geometry</groupId>
     <artifactId>nls-geometry</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -21,6 +14,9 @@
 
     <properties>
         <jts.version>1.19.0</jts.version>
+        <java.version>17</java.version>
+        <spring-context.version>6.1.5</spring-context.version>
+        <junit-jupiter-engine.version>5.10.2</junit-jupiter-engine.version>
     </properties>
 
     <dependencies>
@@ -34,18 +30,32 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <!--            versie naar boven-->
-            <version>6.1.5</version>
+            <version>${spring-context.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.2</version>
+            <version>${junit-jupiter-engine.version}</version>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

@@ -15,5 +15,4 @@ extends:
     mavenReleaseGoal: deploy
     sonarOptionalCoverageExclusions: '**/generated/**,**/security/**,**/config/**,**/properties/**,**/dtos/**,/example/**'
     sonarOptionalExclusions: '**/generated/**'
-    mavenOptionalBuildOptions: '-Pregression-test'
-    mavenDeployToNdwShared: true
+    mavenDeployToNdwShared: false
