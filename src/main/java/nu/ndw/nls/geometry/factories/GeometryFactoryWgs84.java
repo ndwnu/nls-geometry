@@ -1,5 +1,6 @@
 package nu.ndw.nls.geometry.factories;
 
+
 import static nu.ndw.nls.geometry.constants.SRID.WGS84;
 import static org.locationtech.jts.geom.PrecisionModel.FLOATING;
 
