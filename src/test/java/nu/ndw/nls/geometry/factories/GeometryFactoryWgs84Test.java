@@ -16,7 +16,7 @@ class GeometryFactoryWgs84Test {
     GeometryFactoryWgs84 factoryRijksdriehoek = new GeometryFactoryWgs84();
 
     @Test
-    public void factory_createLineString_works() {
+    public void createLineString_ok() {
 
         Coordinate[] pointArray = new Coordinate[]{
                 new Coordinate(POINT_A_COORDINATE_X, POINT_A_COORDINATE_Y),
