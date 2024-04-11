@@ -1,7 +1,7 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,5 +31,45 @@ class GeoJsonCoordinateMapperTest {
 
         verify(coordinate).getX();
         verify(coordinate).getY();
+    }
+
+    @Test
+    void mapList_ok() {
+        List<Coordinate> coordinates = List.of(
+                new Coordinate(5.28232,51.87819),
+                new Coordinate(5.12705,52.07013),
+                new Coordinate(5.43831,52.11337)
+        );
+
+        String mapped = geoJsonCoordinateMapper.mapList(coordinates);
+
+        String expected = "5.28232,51.87819;5.12705,52.07013;5.43831,52.11337";
+        assertThat(mapped).isEqualTo(expected);
+    }
+
+    @Test
+    void mapList_ok_forgetZAndDefaultCoordinate() {
+        List<Coordinate> coordinates = List.of(
+                new Coordinate(),
+                new Coordinate(5.43831,52.11337, 2)
+        );
+        String mapped = geoJsonCoordinateMapper.mapList(coordinates);
+
+        String expected = "0.0,0.0;5.43831,52.11337";
+        assertThat(mapped).isEqualTo(expected);
+    }
+
+    @Test
+    void mapList_ok_empty() {
+        String mapped = geoJsonCoordinateMapper.mapList(List.of());
+
+        assertThat(mapped).isBlank();
+    }
+
+    @Test
+    void mapList_ok_null() {
+        String mapped = geoJsonCoordinateMapper.mapList(null);
+
+        assertThat(mapped).isBlank();
     }
 }
