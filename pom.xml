@@ -6,7 +6,7 @@
 
     <groupId>nu.ndw.nls.geometry</groupId>
     <artifactId>nls-geometry</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>nls-geometry</name>
@@ -95,6 +95,11 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-context.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mapbox.mapboxsdk</groupId>
+            <artifactId>mapbox-sdk-geojson</artifactId>
+            <version>5.8.0</version>
         </dependency>
 
     </dependencies>
