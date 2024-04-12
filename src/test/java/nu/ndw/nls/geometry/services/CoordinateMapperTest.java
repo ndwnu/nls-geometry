@@ -42,8 +42,8 @@ class CoordinateMapperTest {
     @Test
     void mapCoordinate_ok_rounded(){
         Coordinate[] result = coordinateMapper.mapToCoordinatesRounded(ORIGINAL_COORDINATES, 3);
-        assertEquals(result[0].x, 4.964);
-        assertEquals(result[2].y, 52.526);
+        assertEquals(4.964, result[0].x);
+        assertEquals(52.526, result[2].y);
     }
 
     @Test
