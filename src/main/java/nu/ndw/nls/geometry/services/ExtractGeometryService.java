@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ExtractGeometryService {
     private static final double SIMPLIFY_DISTANCE_TOLERANCE_METRES = 0.5;
+    private static final double SCALE_BASE = 10;
+    private static final double SCALE_POWER_ROUNDING_DECIMALS = 7;
     private static final CoordinateReferenceSystem RD_NEW_CRS;
     private static final String EPSG_28992_RD_NEW = "EPSG:28992";
 
@@ -65,7 +67,7 @@ public class ExtractGeometryService {
         // NOTE: it is important to simplify using RD_NEW coordinates because the CRS uses metres
         Geometry simplified = geometrySimplifierMapper.map(SIMPLIFY_DISTANCE_TOLERANCE_METRES, rdNewGeometry);
         Geometry transformed = crsTransformer.transformFromRdNewToWgs84(simplified);
-        PrecisionModel precisionModel = new PrecisionModel(Math.pow(10, 7));
+        PrecisionModel precisionModel = new PrecisionModel(Math.pow(SCALE_BASE, SCALE_POWER_ROUNDING_DECIMALS));
         return reduceKeepCollapsed(transformed, precisionModel);
     }
 
@@ -74,7 +76,7 @@ public class ExtractGeometryService {
         // NOTE: it is important to simplify using RD_NEW coordinates because the CRS uses metres
         Geometry simplified = geometrySimplifierMapper.map(SIMPLIFY_DISTANCE_TOLERANCE_METRES, rdNewGeometry);
         Geometry transformed = crsTransformer.transformFromRdNewToWgs84(simplified);
-        PrecisionModel precisionModel = new PrecisionModel(Math.pow(10, decimals));
+        PrecisionModel precisionModel = new PrecisionModel(Math.pow(SCALE_BASE, decimals));
         return reduceKeepCollapsed(transformed, precisionModel);
     }
 
