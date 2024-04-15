@@ -11,11 +11,10 @@ import nu.ndw.nls.geometry.mappers.CoordinateMapper;
 import nu.ndw.nls.geometry.mappers.GeometrySimplifierMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 
-class CoordinateMapperTest {
+class ExtractGeometryServiceTest {
     private final GeometryFactoryWgs84 geometryFactoryWgs84 = new GeometryFactoryWgs84();
     private final CoordinateMapper coordinateMapper = new CoordinateMapper();
     private ExtractGeometryService extractGeometryService;
@@ -38,13 +37,6 @@ class CoordinateMapperTest {
             List.of(4.9651, 52.5259201),
             List.of(4.96515, 52.5259801),
             List.of(4.9652954, 52.5262224));
-
-    @Test
-    void mapCoordinate_ok_rounded(){
-        Coordinate[] result = coordinateMapper.mapToCoordinatesRounded(ORIGINAL_COORDINATES, 3);
-        assertEquals(4.964, result[0].x);
-        assertEquals(52.526, result[2].y);
-    }
 
     @Test
     void extract_ok_zeroOffsets() {
