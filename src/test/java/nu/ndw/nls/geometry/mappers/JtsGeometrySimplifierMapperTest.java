@@ -8,7 +8,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.PrecisionModel;
 
-class GeometrySimplifierMapperTest {
+class JtsGeometrySimplifierMapperTest {
 
     private static final GeometryFactory WGS84_GEOMETRY_FACTORY = new GeometryFactory(new PrecisionModel(), 4326);
     private static final Coordinate COORDINATE_A = new Coordinate(5.431641, 52.17898);
@@ -18,7 +18,7 @@ class GeometrySimplifierMapperTest {
     private static final Coordinate COORDINATE_X = new Coordinate(5.43111, 52.178622);
     private static final Coordinate COORDINATE_SAME_VALUES_AS_X = new Coordinate(5.43111, 52.178622);
 
-    private final GeometrySimplifierMapper geometrySimplifierMapper = new GeometrySimplifierMapper();
+    private final JtsGeometrySimplifierMapper geometrySimplifierMapper = new JtsGeometrySimplifierMapper();
 
     @Test
     void map_ok_defaultAndSimplified() {

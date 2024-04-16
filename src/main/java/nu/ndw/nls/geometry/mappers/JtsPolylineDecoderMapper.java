@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class PolylineDecoderMapper {
+public class JtsPolylineDecoderMapper {
 
     private static final int DECODE_PRECISION_5_DECIMALS = 5;
     private static final double SIMPLIFY_TOLERANCE_5_DECIMALS = Math.pow(10, -1.0 * DECODE_PRECISION_5_DECIMALS);

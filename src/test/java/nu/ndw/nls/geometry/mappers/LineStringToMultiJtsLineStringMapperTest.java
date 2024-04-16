@@ -13,11 +13,11 @@ import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.WKTReader;
 
-class LineStringToMultiLineStringMapperTest {
+class LineStringToMultiJtsLineStringMapperTest {
 
     private static final GeometryFactory WGS84_GEOMETRY_FACTORY = new GeometryFactory(new PrecisionModel(), 4326);
-    private final LineStringToMultiLineStringMapper lineStringToMultiLineStringMapper =
-            new LineStringToMultiLineStringMapper();
+    private final JtsLineStringToMultiLineStringMapper lineStringToMultiLineStringMapper =
+            new JtsLineStringToMultiLineStringMapper();
 
     @Test
     @SneakyThrows

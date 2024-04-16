@@ -6,13 +6,13 @@ import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.LineString;
 
-class PolylineDecoderMapperTest {
+class JtsPolylineDecoderMapperTest {
 
     private static final String POLYLINE = "{euyHika^NFPFNFzBtAB@VN@@F@";
     private static final String WKT_RESULT = "LINESTRING (5.09125 51.5595, 5.09113 51.55925, 5.0906 51.55848, "
             + "5.09059 51.55844)";
 
-    private final PolylineDecoderMapper polylineDecoderMapper = new PolylineDecoderMapper(new GeometryFactoryWgs84());
+    private final JtsPolylineDecoderMapper polylineDecoderMapper = new JtsPolylineDecoderMapper(new GeometryFactoryWgs84());
 
     @Test
     void map() {

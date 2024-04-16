@@ -4,7 +4,7 @@ import static org.locationtech.jts.precision.GeometryPrecisionReducer.reduceKeep
 
 import lombok.RequiredArgsConstructor;
 import nu.ndw.nls.geometry.crs.CrsTransformer;
-import nu.ndw.nls.geometry.mappers.GeometrySimplifierMapper;
+import nu.ndw.nls.geometry.mappers.JtsGeometrySimplifierMapper;
 import org.geotools.api.referencing.FactoryException;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.geometry.jts.JTS;
@@ -34,7 +34,7 @@ public class ExtractGeometryService {
     }
 
     private final CrsTransformer crsTransformer;
-    private final GeometrySimplifierMapper geometrySimplifierMapper;
+    private final JtsGeometrySimplifierMapper geometrySimplifierMapper;
 
     /** Extract coordinates from a geometry defined in WGS84 using RD_NEW */
     public Geometry extractByFractions(double startFraction, double endFraction, Geometry geometry) {

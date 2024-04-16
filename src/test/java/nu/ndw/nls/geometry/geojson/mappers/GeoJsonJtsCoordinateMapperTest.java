@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GeoJsonCoordinateMapperTest {
+class GeoJsonJtsCoordinateMapperTest {
 
     private static final double X = 1D;
     private static final double Y = 2D;

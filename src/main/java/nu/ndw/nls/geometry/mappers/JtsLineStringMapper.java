@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class LineStringMapper {
-    private final CoordinateMapper coordinateMapper;
+public class JtsLineStringMapper {
+    private final JtsCoordinateMapper coordinateMapper;
     private final GeometryFactoryWgs84 geometryFactoryWgs84;
     public Coordinate[][] createMultiLineCoordinates(List<List<List<Double>>> multiLineAsDoubles) {
         return multiLineAsDoubles

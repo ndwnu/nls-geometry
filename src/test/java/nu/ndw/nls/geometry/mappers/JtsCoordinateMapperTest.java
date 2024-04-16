@@ -6,11 +6,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 
-class CoordinateMapperTest {
+class JtsCoordinateMapperTest {
     private static final List<List<Double>> ORIGINAL_COORDINATES = List.of(
             List.of(4.9643, 52.52468),
             List.of(4.96503, 52.52588));
-    CoordinateMapper coordinateMapper = new CoordinateMapper();
+    JtsCoordinateMapper coordinateMapper = new JtsCoordinateMapper();
 
     @Test
     void mapCoordinate_ok_rounded(){

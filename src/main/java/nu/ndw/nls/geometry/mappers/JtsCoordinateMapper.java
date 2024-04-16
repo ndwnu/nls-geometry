@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CoordinateMapper {
+public class JtsCoordinateMapper {
     public Coordinate[] mapToCoordinates(List<List<Double>> coordinates) {
         return coordinates
                 .stream()
