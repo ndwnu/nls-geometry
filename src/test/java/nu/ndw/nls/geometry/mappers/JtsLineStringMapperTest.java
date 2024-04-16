@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.MultiLineString;
 
-class LineStringMapperTest {
-    private final LineStringMapper lineStringMapper = new LineStringMapper(new CoordinateMapper(), new GeometryFactoryWgs84());
+class JtsLineStringMapperTest {
+    private final JtsLineStringMapper lineStringMapper = new JtsLineStringMapper(new JtsCoordinateMapper(), new GeometryFactoryWgs84());
 
     private static final List<List<Double>> LINE_STRING_A = List.of(
             List.of(5.41711435, 52.15390839),
