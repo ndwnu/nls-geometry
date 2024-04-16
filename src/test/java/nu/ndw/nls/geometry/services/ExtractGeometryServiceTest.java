@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import nu.ndw.nls.geometry.crs.CrsTransformer;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
-import nu.ndw.nls.geometry.mappers.CoordinateMapper;
-import nu.ndw.nls.geometry.mappers.GeometrySimplifierMapper;
+import nu.ndw.nls.geometry.mappers.JtsCoordinateMapper;
+import nu.ndw.nls.geometry.mappers.JtsGeometrySimplifierMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Geometry;
@@ -16,11 +16,11 @@ import org.locationtech.jts.geom.LineString;
 
 class ExtractGeometryServiceTest {
     private final GeometryFactoryWgs84 geometryFactoryWgs84 = new GeometryFactoryWgs84();
-    private final CoordinateMapper coordinateMapper = new CoordinateMapper();
+    private final JtsCoordinateMapper coordinateMapper = new JtsCoordinateMapper();
     private ExtractGeometryService extractGeometryService;
     @BeforeEach
     void setup () {
-        extractGeometryService = new ExtractGeometryService(new CrsTransformer(), new GeometrySimplifierMapper());
+        extractGeometryService = new ExtractGeometryService(new CrsTransformer(), new JtsGeometrySimplifierMapper());
     }
     private static final List<List<Double>> ORIGINAL_COORDINATES = List.of(
             List.of(4.9643, 52.52468),

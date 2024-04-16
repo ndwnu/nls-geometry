@@ -5,7 +5,7 @@ import org.locationtech.jts.simplify.DouglasPeuckerSimplifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GeometrySimplifierMapper {
+public class JtsGeometrySimplifierMapper {
 
     public static final double DEFAULT_DISTANCE_TOLERANCE = 0.000005;
 

@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 
 @Component
-public class LineStringToMultiLineStringMapper {
+public class JtsLineStringToMultiLineStringMapper {
 
     /**
      * Turns {@link LineString} objects into a {@link MultiLineString} and uses the first
