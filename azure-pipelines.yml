@@ -13,6 +13,5 @@ extends:
   parameters:
     isVersionedProject: true
     mavenReleaseGoal: deploy
-    sonarOptionalCoverageExclusions: '**/generated/**,**/security/**,**/config/**,**/properties/**,**/dtos/**,/example/**'
-    sonarOptionalExclusions: '**/generated/**'
-    mavenDeployToNdwShared: false
+    sonarOptionalCoverageExclusions: '**/*Config.*,**/*Configuration.*'
+    mavenDeployToNdwShared: true
