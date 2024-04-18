@@ -21,7 +21,6 @@
     <properties>
         <jts.version>1.19.0</jts.version>
         <java.version>17</java.version>
-        <spring-context.version>6.1.5</spring-context.version>
         <junit-jupiter-engine.version>5.10.2</junit-jupiter-engine.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
@@ -32,6 +31,7 @@
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <assertj.version>3.24.2</assertj.version>
+        <mapbox-sdk-geojson.version>5.8.0</mapbox-sdk-geojson.version>
     </properties>
 
     <dependencies>
@@ -75,7 +75,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring-context.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -99,13 +98,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring-context.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.mapbox.mapboxsdk</groupId>
             <artifactId>mapbox-sdk-geojson</artifactId>
-            <version>5.8.0</version>
+            <version>${mapbox-sdk-geojson.version}</version>
         </dependency>
     </dependencies>
 
