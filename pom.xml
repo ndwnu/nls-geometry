@@ -24,7 +24,7 @@
         <junit-jupiter-engine.version>5.10.2</junit-jupiter-engine.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
-        <geotools.version>30.2</geotools.version>
+        <geotools.version>31.0</geotools.version>
         <slf4j-api.version>2.0.12</slf4j-api.version>
         <mockito-junit-jupiter.version>5.7.0</mockito-junit-jupiter.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
