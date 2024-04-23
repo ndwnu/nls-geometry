@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.5</version>
     </parent>
 
     <groupId>nu.ndw.nls.geometry</groupId>
@@ -23,14 +23,14 @@
         <java.version>17</java.version>
         <junit-jupiter-engine.version>5.10.2</junit-jupiter-engine.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <geotools.version>31.0</geotools.version>
-        <slf4j-api.version>2.0.12</slf4j-api.version>
-        <mockito-junit-jupiter.version>5.7.0</mockito-junit-jupiter.version>
+        <slf4j-api.version>2.0.13</slf4j-api.version>
+        <mockito-junit-jupiter.version>5.11.0</mockito-junit-jupiter.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
-        <assertj.version>3.24.2</assertj.version>
+        <assertj.version>3.25.3</assertj.version>
         <mapbox-sdk-geojson.version>5.8.0</mapbox-sdk-geojson.version>
     </properties>
 
