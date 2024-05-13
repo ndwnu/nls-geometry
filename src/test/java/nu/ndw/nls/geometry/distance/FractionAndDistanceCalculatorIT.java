@@ -101,7 +101,6 @@ class FractionAndDistanceCalculatorIT {
         LineString originalLineString = createLineString(FROM, TO);
         CoordinateAndBearing coordinateAndBearing = fractionAndDistanceCalculator.getCoordinateAndBearing(
                 originalLineString, 0.5);
-
         assertThat(coordinateAndBearing.bearing()).isCloseTo(149, Offset.offset(0.5));
     }
 

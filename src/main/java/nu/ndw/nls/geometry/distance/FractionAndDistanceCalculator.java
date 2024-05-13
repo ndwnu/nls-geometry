@@ -122,7 +122,7 @@ public class FractionAndDistanceCalculator {
                 geodeticCalculator.setDestinationGeographicPoint(next.getX(), next.getY());
                 lastBearing = geodeticCalculator.getAzimuth();
                 double lengthBefore = sumOfPathLengths;
-                sumOfPathLengths += calculateDistance(current, next, geodeticCalculator);
+                sumOfPathLengths += geodeticCalculator.getOrthodromicDistance();
                 if (fractionLength >= lengthBefore && fractionLength < sumOfPathLengths) {
                     double distance = fractionLength - lengthBefore;
                     // Don't introduce an extra point if it's within 1 cm of the last point from the original geometry.
