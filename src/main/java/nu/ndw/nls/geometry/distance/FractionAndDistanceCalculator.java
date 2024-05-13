@@ -127,8 +127,6 @@ public class FractionAndDistanceCalculator {
                     double distance = fractionLength - lengthBefore;
                     // Don't introduce an extra point if it's within 1 cm of the last point from the original geometry.
                     if (distance > DISTANCE_TOLERANCE_1_CM) {
-                        geodeticCalculator.setStartingGeographicPoint(current.getX(), current.getY());
-                        geodeticCalculator.setDestinationGeographicPoint(next.getX(), next.getY());
                         geodeticCalculator.setDirection(lastBearing, distance);
                         Point2D point = geodeticCalculator.getDestinationGeographicPoint();
                         result.add(new Coordinate(point.getX(), point.getY()));
