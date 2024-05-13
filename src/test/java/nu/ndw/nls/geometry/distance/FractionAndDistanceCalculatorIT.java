@@ -1,11 +1,14 @@
 package nu.ndw.nls.geometry.distance;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import nu.ndw.nls.geometry.TestConfig;
+import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
@@ -90,6 +93,16 @@ class FractionAndDistanceCalculatorIT {
         LineString originalLineString = createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01));
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 1.0);
         assertEquals(originalLineString, subLineString);
+    }
+
+
+    @Test
+    void getCoordinateAndBearing_ok() {
+        LineString originalLineString = createLineString(FROM, TO);
+        CoordinateAndBearing coordinateAndBearing = fractionAndDistanceCalculator.getCoordinateAndBearing(
+                originalLineString, 0.5);
+
+        assertThat(coordinateAndBearing.bearing()).isCloseTo(149, Offset.offset(0.5));
     }
 
     private LineString createLineString(Coordinate... coordinates) {
