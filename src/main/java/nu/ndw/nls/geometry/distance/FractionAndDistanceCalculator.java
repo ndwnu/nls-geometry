@@ -167,7 +167,7 @@ public class FractionAndDistanceCalculator {
     private record SubLinestringAndLastBearing(LineString subLinestring, double lastBearing) {
 
         Coordinate getLastCoordinate() {
-            int lastIndex = subLinestring.getNumPoints();
+            int lastIndex = subLinestring.getNumPoints() - 1;
             return subLinestring.getCoordinateN(lastIndex);
         }
     }
