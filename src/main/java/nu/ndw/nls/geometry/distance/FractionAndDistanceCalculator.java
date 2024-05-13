@@ -129,7 +129,6 @@ public class FractionAndDistanceCalculator {
                     if (distance > DISTANCE_TOLERANCE_1_CM) {
                         geodeticCalculator.setStartingGeographicPoint(current.getX(), current.getY());
                         geodeticCalculator.setDestinationGeographicPoint(next.getX(), next.getY());
-                        lastBearing = geodeticCalculator.getAzimuth();
                         geodeticCalculator.setDirection(lastBearing, distance);
                         Point2D point = geodeticCalculator.getDestinationGeographicPoint();
                         result.add(new Coordinate(point.getX(), point.getY()));
@@ -168,7 +167,7 @@ public class FractionAndDistanceCalculator {
     private record SubLinestringAndLastBearing(LineString subLinestring, double lastBearing) {
 
         Coordinate getLastCoordinate() {
-            int lastIndex = subLinestring.getCoordinates().length - 1;
+            int lastIndex = subLinestring.getNumPoints();
             return subLinestring.getCoordinateN(lastIndex);
         }
     }
