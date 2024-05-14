@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import nu.ndw.nls.geometry.constants.SRID;
+import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
 import nu.ndw.nls.geometry.factories.GeometryFactorySrid;
@@ -91,27 +93,41 @@ public class FractionAndDistanceCalculator {
      * Extract a subsection from the provided lineString, starting at 0 and ending at the provided fraction.
      */
     public LineString getSubLineString(LineString lineString, double fraction) {
+        return getSubLineStringAndLastBearing(lineString, fraction).subLinestring();
+    }
+
+    public CoordinateAndBearing getCoordinateAndBearing(LineString lineString, double fraction) {
+        SubLinestringAndLastBearing subLinestringAndLastBearing = getSubLineStringAndLastBearing(lineString, fraction);
+        return CoordinateAndBearing
+                .builder()
+                .bearing(subLinestringAndLastBearing.lastBearing())
+                .coordinate(subLinestringAndLastBearing.getLastCoordinate())
+                .build();
+    }
+
+    private SubLinestringAndLastBearing getSubLineStringAndLastBearing(LineString lineString, double fraction) {
         SRID srid = SRID.fromValue(lineString.getSRID());
         GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(srid);
         double sumOfPathLengths = 0;
         Coordinate[] coordinates = lineString.getCoordinates();
         double fractionLength = fraction * calculateLengthInMeters(lineString);
         List<Coordinate> result = new ArrayList<>();
+        double lastBearing = 0;
         for (int i = 0; i < coordinates.length; i++) {
             Coordinate current = coordinates[i];
             result.add(current);
             if (i + 1 < coordinates.length) {
                 Coordinate next = coordinates[i + 1];
+                geodeticCalculator.setStartingGeographicPoint(current.getX(), current.getY());
+                geodeticCalculator.setDestinationGeographicPoint(next.getX(), next.getY());
+                lastBearing = geodeticCalculator.getAzimuth();
                 double lengthBefore = sumOfPathLengths;
-                sumOfPathLengths += calculateDistance(current, next, geodeticCalculator);
+                sumOfPathLengths += geodeticCalculator.getOrthodromicDistance();
                 if (fractionLength >= lengthBefore && fractionLength < sumOfPathLengths) {
                     double distance = fractionLength - lengthBefore;
                     // Don't introduce an extra point if it's within 1 cm of the last point from the original geometry.
                     if (distance > DISTANCE_TOLERANCE_1_CM) {
-                        geodeticCalculator.setStartingGeographicPoint(current.getX(), current.getY());
-                        geodeticCalculator.setDestinationGeographicPoint(next.getX(), next.getY());
-                        double azimuth = geodeticCalculator.getAzimuth();
-                        geodeticCalculator.setDirection(azimuth, distance);
+                        geodeticCalculator.setDirection(lastBearing, distance);
                         Point2D point = geodeticCalculator.getDestinationGeographicPoint();
                         result.add(new Coordinate(point.getX(), point.getY()));
                     } else if (i == 0) {
@@ -123,7 +139,11 @@ public class FractionAndDistanceCalculator {
             }
         }
         final GeometryFactory geometryFactory = getGeometryFactory(srid);
-        return geometryFactory.createLineString(result.toArray(new Coordinate[0]));
+        return SubLinestringAndLastBearing
+                .builder()
+                .subLinestring(geometryFactory.createLineString(result.toArray(new Coordinate[0])))
+                .lastBearing(lastBearing)
+                .build();
 
     }
 
@@ -140,4 +160,15 @@ public class FractionAndDistanceCalculator {
         geodeticCalculator.setDestinationGeographicPoint(from.getX(), from.getY());
         return geodeticCalculator.getOrthodromicDistance();
     }
+
+    @Builder
+    private record SubLinestringAndLastBearing(LineString subLinestring, double lastBearing) {
+
+        Coordinate getLastCoordinate() {
+            int lastIndex = subLinestring.getNumPoints() - 1;
+            return subLinestring.getCoordinateN(lastIndex);
+        }
+    }
+
+
 }
