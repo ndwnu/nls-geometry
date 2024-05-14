@@ -37,4 +37,8 @@ public class BearingCalculator {
         double bearing = geodeticCalculator.getAzimuth();
         return (bearing + MAX_BEARING) % MAX_BEARING;
     }
+
+    public double normaliseBearing(double bearing) {
+        return (bearing + MAX_BEARING) % MAX_BEARING;
+    }
 }

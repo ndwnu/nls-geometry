@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import nu.ndw.nls.geometry.bearing.BearingCalculator;
 import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
@@ -30,15 +31,17 @@ public class FractionAndDistanceCalculator {
     private static final double DISTANCE_TOLERANCE_1_CM = 0.01;
     private final GeodeticCalculatorFactory geodeticCalculatorFactory;
     private final Map<SRID, GeometryFactorySrid> geometryFactorySridMap;
+    private final BearingCalculator bearingCalculator;
 
     public FractionAndDistanceCalculator(GeodeticCalculatorFactory geodeticCalculatorFactory,
-            List<GeometryFactorySrid> geometryFactories) {
+            List<GeometryFactorySrid> geometryFactories, BearingCalculator bearingCalculator) {
         this.geodeticCalculatorFactory = geodeticCalculatorFactory;
         this.geometryFactorySridMap = geometryFactories
                 .stream()
                 .collect(Collectors
                         .toMap(GeometryFactorySrid::getSrid,
                                 Function.identity()));
+        this.bearingCalculator = bearingCalculator;
     }
 
     public FractionAndDistance calculateFractionAndDistance(LineString line, Coordinate inputCoordinate) {
@@ -142,7 +145,7 @@ public class FractionAndDistanceCalculator {
         return SubLinestringAndLastBearing
                 .builder()
                 .subLinestring(geometryFactory.createLineString(result.toArray(new Coordinate[0])))
-                .lastBearing(lastBearing)
+                .lastBearing(bearingCalculator.normaliseBearing(lastBearing))
                 .build();
 
     }
