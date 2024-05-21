@@ -1,6 +1,5 @@
 package nu.ndw.nls.geometry.distance;
 
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +35,8 @@ public class FractionAndDistanceCalculator {
     public FractionAndDistanceCalculator(GeodeticCalculatorFactory geodeticCalculatorFactory,
             List<GeometryFactorySrid> geometryFactories, BearingCalculator bearingCalculator) {
         this.geodeticCalculatorFactory = geodeticCalculatorFactory;
-        this.geometryFactorySridMap = geometryFactories
-                .stream()
-                .collect(Collectors
-                        .toMap(GeometryFactorySrid::getSrid,
-                                Function.identity()));
+        this.geometryFactorySridMap = geometryFactories.stream()
+                .collect(Collectors.toMap(GeometryFactorySrid::getSrid, Function.identity()));
         this.bearingCalculator = bearingCalculator;
     }
 
@@ -78,7 +74,6 @@ public class FractionAndDistanceCalculator {
                 .fractionDistance(pathDistanceToSnappedPoint)
                 .totalDistance(sumOfPathLengths)
                 .build();
-
     }
 
     public double calculateLengthInMeters(LineString lineString) {
@@ -89,31 +84,53 @@ public class FractionAndDistanceCalculator {
                 .mapToDouble(
                         index -> calculateDistance(coordinates[index - 1], coordinates[index], geodeticCalculator))
                 .sum();
-
     }
 
     /**
      * Extract a subsection from the provided lineString, starting at 0 and ending at the provided fraction.
      */
     public LineString getSubLineString(LineString lineString, double fraction) {
-        return getSubLineStringAndLastBearing(lineString, fraction).subLinestring();
+        return getSubLineStringAndLastBearing(lineString, fraction).subLineString();
+    }
+
+    /**
+     * Extract a subsection from the provided lineString, starting and ending at the provided fractions.
+     * This is a quick and dirty implementation that calls getSubLineStringAndLastBearingByMetres twice, because it
+     * currently only supports end metres.
+     * TODO Add support for start metres to getSubLineStringAndLastBearingByMetres, so we only have to call it once.
+     */
+    public LineString getSubLineString(LineString lineString, double startFraction, double endFraction) {
+        double length = calculateLengthInMeters(lineString);
+        double startMetres = startFraction * length;
+        double endMetres = endFraction * length;
+        LineString zeroToEnd = getSubLineStringByMetres(lineString, endMetres);
+        return getSubLineStringByMetres(zeroToEnd.reverse(), endMetres - startMetres).reverse();
+    }
+
+    private LineString getSubLineStringByMetres(LineString lineString, double fractionLength) {
+        return getSubLineStringAndLastBearingByMetres(lineString, fractionLength).subLineString();
     }
 
     public CoordinateAndBearing getCoordinateAndBearing(LineString lineString, double fraction) {
-        SubLinestringAndLastBearing subLinestringAndLastBearing = getSubLineStringAndLastBearing(lineString, fraction);
+        SubLineStringAndLastBearing subLineStringAndLastBearing = getSubLineStringAndLastBearing(lineString, fraction);
         return CoordinateAndBearing
                 .builder()
-                .bearing(subLinestringAndLastBearing.lastBearing())
-                .coordinate(subLinestringAndLastBearing.getLastCoordinate())
+                .bearing(subLineStringAndLastBearing.lastBearing())
+                .coordinate(subLineStringAndLastBearing.getLastCoordinate())
                 .build();
     }
 
-    private SubLinestringAndLastBearing getSubLineStringAndLastBearing(LineString lineString, double fraction) {
+    private SubLineStringAndLastBearing getSubLineStringAndLastBearing(LineString lineString, double fraction) {
+        double fractionLength = fraction * calculateLengthInMeters(lineString);
+        return getSubLineStringAndLastBearingByMetres(lineString, fractionLength);
+    }
+
+    private SubLineStringAndLastBearing getSubLineStringAndLastBearingByMetres(LineString lineString,
+            double fractionLength) {
         SRID srid = SRID.fromValue(lineString.getSRID());
         GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(srid);
         double sumOfPathLengths = 0;
         Coordinate[] coordinates = lineString.getCoordinates();
-        double fractionLength = fraction * calculateLengthInMeters(lineString);
         List<Coordinate> result = new ArrayList<>();
         double lastBearing = 0;
         for (int i = 0; i < coordinates.length; i++) {
@@ -141,13 +158,12 @@ public class FractionAndDistanceCalculator {
                 }
             }
         }
-        final GeometryFactory geometryFactory = getGeometryFactory(srid);
-        return SubLinestringAndLastBearing
+        GeometryFactory geometryFactory = getGeometryFactory(srid);
+        return SubLineStringAndLastBearing
                 .builder()
-                .subLinestring(geometryFactory.createLineString(result.toArray(new Coordinate[0])))
+                .subLineString(geometryFactory.createLineString(result.toArray(new Coordinate[0])))
                 .lastBearing(bearingCalculator.normaliseBearing(lastBearing))
                 .build();
-
     }
 
     private GeometryFactory getGeometryFactory(SRID srid) {
@@ -165,13 +181,11 @@ public class FractionAndDistanceCalculator {
     }
 
     @Builder
-    private record SubLinestringAndLastBearing(LineString subLinestring, double lastBearing) {
+    private record SubLineStringAndLastBearing(LineString subLineString, double lastBearing) {
 
         Coordinate getLastCoordinate() {
-            int lastIndex = subLinestring.getNumPoints() - 1;
-            return subLinestring.getCoordinateN(lastIndex);
+            int lastIndex = subLineString.getNumPoints() - 1;
+            return subLineString.getCoordinateN(lastIndex);
         }
     }
-
-
 }
