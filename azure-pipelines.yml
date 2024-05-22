@@ -15,3 +15,4 @@ extends:
     mavenReleaseGoal: deploy
     sonarOptionalCoverageExclusions: '**/*Config.*,**/*Configuration.*'
     mavenDeployToNdwShared: true
+    pushToGitHub: true
