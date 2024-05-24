@@ -15,6 +15,7 @@ public class JtsPolylineDecoderMapper {
     private static final int DECODE_PRECISION_5_DECIMALS = 5;
     private static final double SIMPLIFY_TOLERANCE_5_DECIMALS = Math.pow(10, -1.0 * DECODE_PRECISION_5_DECIMALS);
     private static final boolean SIMPLIFY_HIGHEST_QUALITY = true;
+
     private final GeometryFactoryWgs84 geometryFactoryWgs84;
 
     public LineString map(Object geometry) {
@@ -32,5 +33,4 @@ public class JtsPolylineDecoderMapper {
 
         throw new IllegalStateException("Geometry is not a valid encoded polyline: " + geometry);
     }
-
 }

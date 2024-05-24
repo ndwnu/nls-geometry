@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -65,9 +65,7 @@ class JtsGeometrySimplifierMapperTest {
         assertEquals(expected, result);
     }
 
-
     private LineString createLineString(Coordinate... coordinates) {
         return WGS84_GEOMETRY_FACTORY.createLineString(coordinates);
     }
-
 }

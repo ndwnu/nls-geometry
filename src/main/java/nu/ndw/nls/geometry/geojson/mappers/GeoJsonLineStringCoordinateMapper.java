@@ -1,6 +1,5 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
-
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +17,4 @@ public class GeoJsonLineStringCoordinateMapper {
                 .map(geoJsonCoordinateMapper::map)
                 .toList();
     }
-
 }

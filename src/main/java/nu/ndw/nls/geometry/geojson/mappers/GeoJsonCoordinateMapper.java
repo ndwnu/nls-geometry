@@ -1,6 +1,5 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,5 +27,4 @@ public class GeoJsonCoordinateMapper {
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
     }
-
 }

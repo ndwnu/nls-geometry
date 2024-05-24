@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import nu.ndw.nls.geometry.TestConfig;
+import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.bearing.model.BearingFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfig.class})
+@ContextConfiguration(classes = {GeometryConfiguration.class})
 class BearingCalculatorIT {
 
     private static final BearingFilter BEARING_FILTER_WITH_WRAPAROUND = new BearingFilter(0, 10);
@@ -56,9 +56,9 @@ class BearingCalculatorIT {
     void calculateBearing_with_azimuth_minus_ok_should_return_positive() {
         var fromCoordinate = new Coordinate(0.0, 1.0);
         var toCoordinate = new Coordinate(-1.0, -2.0);
+
         assertThat(bearingCalculator.calculateBearing(fromCoordinate, toCoordinate, null)).isEqualTo(
                 198.54804530050606);
-
     }
 
     @Test

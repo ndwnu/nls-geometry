@@ -16,7 +16,6 @@ public class DiameterToPolygonMapper {
     private static final int NUM_POINTS = 100;
 
     private final CrsTransformer crsTransformer;
-
     private final GeometryFactoryRijksdriehoek geometryFactoryRijksdriehoek;
 
     public Polygon mapToPolygonWgs84(Point point, double diameterInMeters) {
