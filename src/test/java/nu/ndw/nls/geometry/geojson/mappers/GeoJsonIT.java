@@ -4,16 +4,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import lombok.SneakyThrows;
+import nu.ndw.nls.geometry.config.GeoJsonMapperConfiguration;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.io.WKTReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {GeoJsonMapperConfiguration.class})
 class GeoJsonIT {
-    private GeoJsonMultiLineStringCoordinateMapper geoJsonMultiLineStringCoordinateMapper =
-            new GeoJsonMultiLineStringCoordinateMapper(
-                    new GeoJsonLineStringCoordinateMapper(
-                            new GeoJsonCoordinateMapper()));
+
+    @Autowired
+    private GeoJsonMultiLineStringCoordinateMapper geoJsonMultiLineStringCoordinateMapper;
 
     @Test
     @SneakyThrows
@@ -26,12 +32,11 @@ class GeoJsonIT {
             List<List<Double>> lineStringB = List.of(List.of(40D, 40D), List.of(30D, 30D), List.of(40D, 20D),
                     List.of(30D, 10D));
 
-            assertEquals(List.of(lineStringA, lineStringB), geoJsonMultiLineStringCoordinateMapper.map(multiLineString));
+            List<List<List<Double>>> coordinates = geoJsonMultiLineStringCoordinateMapper.map(multiLineString);
+
+            assertEquals(List.of(lineStringA, lineStringB), coordinates);
         } else {
             throw new IllegalArgumentException("Expecting multi line string");
         }
-
-
-
     }
 }

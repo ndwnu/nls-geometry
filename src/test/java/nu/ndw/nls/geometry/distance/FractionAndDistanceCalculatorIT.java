@@ -2,7 +2,7 @@ package nu.ndw.nls.geometry.distance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import nu.ndw.nls.geometry.TestConfig;
+import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfig.class})
+@ContextConfiguration(classes = {GeometryConfiguration.class})
 class FractionAndDistanceCalculatorIT {
 
     private static final Coordinate FROM = new Coordinate(5.42670371, 52.17673587);
