@@ -1,6 +1,5 @@
 package nu.ndw.nls.geometry.mappers;
 
-
 import java.util.List;
 import java.util.Optional;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -8,7 +7,6 @@ import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
 
 @Component
 public class JtsLineStringToMultiLineStringMapper {
@@ -44,5 +42,4 @@ public class JtsLineStringToMultiLineStringMapper {
         LineString[] lineString = lineStrings.toArray(new LineString[0]);
         return geometryFactory.createMultiLineString(lineString);
     }
-
 }

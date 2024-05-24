@@ -38,7 +38,6 @@ class GeoJsonMultiLineStringCoordinateMapperTest {
     @Mock
     private List<List<Double>> coordinatesC;
 
-
     @Test
     void map_ok() {
         when(multiLineString.getNumGeometries()).thenReturn(3);
@@ -51,7 +50,8 @@ class GeoJsonMultiLineStringCoordinateMapperTest {
         when(geoJsonLineStringCoordinateMapper.map(lineStringB)).thenReturn(coordinatesB);
         when(geoJsonLineStringCoordinateMapper.map(lineStringC)).thenReturn(coordinatesC);
 
-        assertEquals(List.of(coordinatesA, coordinatesB, coordinatesC),
-                geoJsonMultiLineStringCoordinateMapper.map(multiLineString));
+        List<List<List<Double>>> coordinates = geoJsonMultiLineStringCoordinateMapper.map(multiLineString);
+
+        assertEquals(List.of(coordinatesA, coordinatesB, coordinatesC), coordinates);
     }
 }
