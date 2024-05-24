@@ -1,7 +1,7 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +17,7 @@ class GeoJsonJtsCoordinateMapperTest {
 
     private static final double X = 1D;
     private static final double Y = 2D;
+
     private final GeoJsonCoordinateMapper geoJsonCoordinateMapper = new GeoJsonCoordinateMapper();
 
     @Mock

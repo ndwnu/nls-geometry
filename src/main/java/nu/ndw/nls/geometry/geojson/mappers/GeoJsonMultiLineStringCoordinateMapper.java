@@ -15,7 +15,6 @@ public class GeoJsonMultiLineStringCoordinateMapper {
     private final GeoJsonLineStringCoordinateMapper geoJsonLineStringCoordinateMapper;
 
     public List<List<List<Double>>> map(MultiLineString multiLineString) {
-
         int numGeometries = multiLineString.getNumGeometries();
 
         List<List<List<Double>>> multiLineStringCoordinates = new ArrayList<>();

@@ -2,7 +2,7 @@ package nu.ndw.nls.geometry.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import nu.ndw.nls.geometry.TestConfig;
+import nu.ndw.nls.geometry.config.GeometryMapperConfiguration;
 import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfig.class})
+@ContextConfiguration(classes = {GeometryMapperConfiguration.class})
 class DiameterToPolygonMapperIT {
 
     @Autowired
@@ -30,13 +30,13 @@ class DiameterToPolygonMapperIT {
 
     @Test
     void mapToPolygonWgs84_ok() {
-       Point centerPoint= geometryFactoryWgs84.createPoint(new Coordinate(4.893394,52.373239));
-       double diameterInMeters = 50;
-       Polygon polygon = diameterToPolygonMapper.mapToPolygonWgs84(centerPoint, diameterInMeters);
-       Coordinate coordinate= polygon.getCoordinate();
-       GeodeticCalculator geodeticCalculator= geodeticCalculatorFactory.createGeodeticCalculator(SRID.WGS84);
-       geodeticCalculator.setStartingGeographicPoint(centerPoint.getX(), centerPoint.getY());
-       geodeticCalculator.setDestinationGeographicPoint(coordinate.getX(), coordinate.getY());
-       assertThat(geodeticCalculator.getOrthodromicDistance()).isCloseTo(25, Offset.offset(0.005));
+        Point centerPoint = geometryFactoryWgs84.createPoint(new Coordinate(4.893394, 52.373239));
+        double diameterInMeters = 50;
+        Polygon polygon = diameterToPolygonMapper.mapToPolygonWgs84(centerPoint, diameterInMeters);
+        Coordinate coordinate = polygon.getCoordinate();
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(SRID.WGS84);
+        geodeticCalculator.setStartingGeographicPoint(centerPoint.getX(), centerPoint.getY());
+        geodeticCalculator.setDestinationGeographicPoint(coordinate.getX(), coordinate.getY());
+        assertThat(geodeticCalculator.getOrthodromicDistance()).isCloseTo(25, Offset.offset(0.005));
     }
 }
