@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class GeometryFactoryRijksdriehoek extends GeometryFactory  implements GeometryFactorySrid  {
+public class GeometryFactoryRijksdriehoek extends GeometryFactory implements GeometryFactorySrid  {
 
     @Serial
     private static final long serialVersionUID = 1;

@@ -6,22 +6,36 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import nu.ndw.nls.geometry.rounding.dto.RoundDoubleConfiguration;
+import nu.ndw.nls.geometry.rounding.mappers.RoundDoubleMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class GeoJsonJtsCoordinateMapperTest {
 
-    private static final double X = 1D;
-    private static final double Y = 2D;
+    private static final double X = 1.123456D;
+    private static final double Y = 2.123456D;
 
-    private final GeoJsonCoordinateMapper geoJsonCoordinateMapper = new GeoJsonCoordinateMapper();
+    private static final double X_ROUNDING_DECIMAL_PLACES_2 = 1.12;
+    private static final double Y_ROUNDING_DECIMAL_PLACES_2 = 2.12;
+
+    @Mock
+    private RoundDoubleMapper roundDoubleMapper;
+
+    @InjectMocks
+    private GeoJsonCoordinateMapper geoJsonCoordinateMapper;
 
     @Mock
     private Coordinate coordinate;
+
+    @Mock
+    private RoundDoubleConfiguration roundDoubleConfiguration;
+
 
     @Test
     void map_ok() {
@@ -33,6 +47,25 @@ class GeoJsonJtsCoordinateMapperTest {
         verify(coordinate).getX();
         verify(coordinate).getY();
     }
+
+    @Test
+    void map_ok_withRoundingDecimalPlaces() {
+        when(coordinate.getX()).thenReturn(X);
+        when(coordinate.getY()).thenReturn(Y);
+
+        when(roundDoubleMapper.round(X, roundDoubleConfiguration)).thenReturn(X_ROUNDING_DECIMAL_PLACES_2);
+        when(roundDoubleMapper.round(Y, roundDoubleConfiguration)).thenReturn(Y_ROUNDING_DECIMAL_PLACES_2);
+
+        assertEquals(List.of(X_ROUNDING_DECIMAL_PLACES_2, Y_ROUNDING_DECIMAL_PLACES_2),
+                geoJsonCoordinateMapper.map(coordinate, roundDoubleConfiguration));
+
+        verify(roundDoubleMapper).round(X, roundDoubleConfiguration);
+        verify(roundDoubleMapper).round(Y, roundDoubleConfiguration);
+
+        verify(coordinate).getX();
+        verify(coordinate).getY();
+    }
+
 
     @Test
     void mapList_ok() {
