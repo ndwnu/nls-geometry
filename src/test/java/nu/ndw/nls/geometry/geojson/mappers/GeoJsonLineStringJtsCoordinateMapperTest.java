@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import nu.ndw.nls.geometry.rounding.dto.RoundDoubleConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
@@ -35,6 +36,9 @@ class GeoJsonLineStringJtsCoordinateMapperTest {
     @Mock
     private List<Double> coordinateBListDouble;
 
+    @Mock
+    private RoundDoubleConfiguration roundDoubleConfiguration;
+
     @Test
     void map_ok() {
         when(lineString.getCoordinates()).thenReturn(new Coordinate[]{coordinateA, coordinateB});
@@ -48,5 +52,20 @@ class GeoJsonLineStringJtsCoordinateMapperTest {
         verify(lineString).getCoordinates();
         verify(geoJsonCoordinateMapper).map(coordinateA);
         verify(geoJsonCoordinateMapper).map(coordinateB);
+    }
+
+    @Test
+    void map_ok_roundingDecimalPlaces() {
+        when(lineString.getCoordinates()).thenReturn(new Coordinate[]{coordinateA, coordinateB});
+        when(geoJsonCoordinateMapper.map(coordinateA, roundDoubleConfiguration)).thenReturn(coordinateAListDouble);
+        when(geoJsonCoordinateMapper.map(coordinateB, roundDoubleConfiguration)).thenReturn(coordinateBListDouble);
+
+        List<List<Double>> coordinates = geoJsonLineStringCoordinateMapper.map(lineString, roundDoubleConfiguration);
+
+        assertEquals(List.of(coordinateAListDouble, coordinateBListDouble), coordinates);
+
+        verify(lineString).getCoordinates();
+        verify(geoJsonCoordinateMapper).map(coordinateA, roundDoubleConfiguration);
+        verify(geoJsonCoordinateMapper).map(coordinateB, roundDoubleConfiguration);
     }
 }
