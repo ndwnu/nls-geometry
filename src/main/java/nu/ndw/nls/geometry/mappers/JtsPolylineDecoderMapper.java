@@ -19,9 +19,9 @@ public class JtsPolylineDecoderMapper {
     private final GeometryFactoryWgs84 geometryFactoryWgs84;
 
     public LineString map(Object geometry) {
-        if (geometry instanceof String) {
+        if (geometry instanceof String string) {
             List<com.mapbox.geojson.Point> points =
-                    PolylineUtils.decode((String) geometry, DECODE_PRECISION_5_DECIMALS);
+                    PolylineUtils.decode(string, DECODE_PRECISION_5_DECIMALS);
             Coordinate[] coordinates =
                     PolylineUtils.simplify(points, SIMPLIFY_TOLERANCE_5_DECIMALS, SIMPLIFY_HIGHEST_QUALITY)
                             .stream()
