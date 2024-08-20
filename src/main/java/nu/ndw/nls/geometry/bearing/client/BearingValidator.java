@@ -25,7 +25,7 @@ public final class BearingValidator {
         if (bearingInvalid || rangeInvalid) {
             StringBuilder sb = new StringBuilder();
             if (bearingInvalid) {
-                sb.append(String.format("Bearing %d exceeded valid range between %d and %d",
+                sb.append("Bearing %d exceeded valid range between %d and %d".formatted(
                         bearing, MIN_BEARING, MAX_BEARING));
             }
 
@@ -34,7 +34,7 @@ public final class BearingValidator {
                     sb.append(". ");
                 }
 
-                sb.append(String.format("Range %d exceeded valid range between %d and %d",
+                sb.append("Range %d exceeded valid range between %d and %d".formatted(
                         range, MIN_RANGE, MAX_RANGE));
             }
 

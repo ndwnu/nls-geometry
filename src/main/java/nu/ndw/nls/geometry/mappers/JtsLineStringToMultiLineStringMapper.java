@@ -25,7 +25,7 @@ public class JtsLineStringToMultiLineStringMapper {
             return Optional.empty();
         }
 
-        GeometryFactory factory = lineStrings.get(0).getFactory();
+        GeometryFactory factory = lineStrings.getFirst().getFactory();
         LineString[] lineString = lineStrings.toArray(new LineString[0]);
 
         return Optional.of(new MultiLineString(lineString, factory));
