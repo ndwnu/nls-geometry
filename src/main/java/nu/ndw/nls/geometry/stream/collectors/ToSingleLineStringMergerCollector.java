@@ -53,7 +53,7 @@ public class ToSingleLineStringMergerCollector implements Collector<LineString, 
                 return Optional.empty();
             }
 
-            return Optional.of(mergedLineStrings.iterator().next());
+            return Optional.of(mergedLineStrings.getFirst());
         };
     }
 

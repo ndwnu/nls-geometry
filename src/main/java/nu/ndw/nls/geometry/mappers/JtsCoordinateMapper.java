@@ -14,14 +14,14 @@ public class JtsCoordinateMapper {
     public Coordinate[] mapToCoordinates(List<List<Double>> coordinates) {
         return coordinates
                 .stream()
-                .map(it -> new Coordinate(it.get(0), it.get(1)))
+                .map(it -> new Coordinate(it.getFirst(), it.get(1)))
                 .toList().toArray(new Coordinate[0]);
     }
 
     public Coordinate[] mapToCoordinatesRounded(List<List<Double>> coordinates, Integer decimals) {
         return coordinates
                 .stream()
-                .map(it -> new Coordinate(round(it.get(0), decimals), round(it.get(1), decimals)))
+                .map(it -> new Coordinate(round(it.getFirst(), decimals), round(it.get(1), decimals)))
                 .toList().toArray(new Coordinate[0]);
     }
 
