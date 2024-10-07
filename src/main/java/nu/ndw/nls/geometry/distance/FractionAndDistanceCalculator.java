@@ -86,6 +86,18 @@ public class FractionAndDistanceCalculator {
                 .sum();
     }
 
+    public LineString getSubLineStringByLengthInMeters(LineString lineString, double distanceInMeters) {
+
+        double lineStringLengthInMeters = calculateLengthInMeters(lineString);
+        if (distanceInMeters >= lineStringLengthInMeters) {
+            return lineString;
+        }
+
+        double fraction = distanceInMeters / lineStringLengthInMeters;
+
+        return getSubLineString(lineString, fraction);
+    }
+
     /**
      * Extract a subsection from the provided lineString, starting at 0 and ending at the provided fraction.
      */
@@ -94,9 +106,9 @@ public class FractionAndDistanceCalculator {
     }
 
     /**
-     * Extract a subsection from the provided lineString, starting and ending at the provided fractions.
-     * This is a quick and dirty implementation that calls getSubLineStringAndLastBearingByMetres twice, because it
-     * currently only supports end metres.
+     * Extract a subsection from the provided lineString, starting and ending at the provided fractions. This is a quick
+     * and dirty implementation that calls getSubLineStringAndLastBearingByMetres twice, because it currently only
+     * supports end metres.
      * TODO Add support for start metres to getSubLineStringAndLastBearingByMetres, so we only have to call it once.
      */
     public LineString getSubLineString(LineString lineString, double startFraction, double endFraction) {
