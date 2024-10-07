@@ -57,6 +57,38 @@ class FractionAndDistanceCalculatorIT {
     }
 
     @Test
+    void getSubLineStringByLengthInMeters_ok() {
+
+        LineString originalLineString = createLineString(
+                new Coordinate(5.0, 53.0),
+                new Coordinate(5.0, 53.01),
+                new Coordinate(5.0, 53.02));
+
+        LineString subLineString = fractionAndDistanceCalculator.getSubLineStringByLengthInMeters(originalLineString,
+                1);
+
+        assertEquals(
+                createLineString(
+                        new Coordinate(5.0, 53.0),
+                        new Coordinate(5.0, 53.00000898583448)),
+                subLineString);
+    }
+
+    @Test
+    void getSubLineStringByLengthInMeters_ok_distanceInMetersIsLargerThatOriginalLineString() {
+
+        LineString originalLineString = createLineString(
+                new Coordinate(5.0, 53.0),
+                new Coordinate(5.0, 53.01),
+                new Coordinate(5.0, 53.02));
+
+        LineString subLineString = fractionAndDistanceCalculator.getSubLineStringByLengthInMeters(originalLineString,
+                100000);
+
+        assertEquals(originalLineString, subLineString);
+    }
+
+    @Test
     void calculateLengthInMeters_ok() {
         double lengthInMeters = fractionAndDistanceCalculator.calculateLengthInMeters(LINE_STRING);
         assertEquals(3.3758, lengthInMeters, FRACTION_DISTANCE_DELTA);
