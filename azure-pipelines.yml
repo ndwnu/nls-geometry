@@ -11,7 +11,7 @@ resources:
     - repository: nls-pipeline-templates
       type: git
       name: NLS/nls-pipeline-templates
-      ref: feature/82146_trivy
+      ref: main
 
 extends:
   template: azure-pipelines-java.yml@nls-pipeline-templates
