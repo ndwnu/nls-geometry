@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,14 @@ public class JtsCoordinateMapper {
     }
 
     public List<List<Double>> mapToDoubles(Geometry geometry) {
-        return Arrays.stream(geometry.getCoordinates())
+        if (Objects.nonNull(geometry)) {
+            return mapFromCoordinates(geometry.getCoordinates());
+        }
+        return List.of();
+    }
+
+    public List<List<Double>> mapFromCoordinates(Coordinate[] coordinates) {
+        return Arrays.stream(coordinates)
                 .map(it -> List.of(it.x, it.y))
                 .toList();
     }
