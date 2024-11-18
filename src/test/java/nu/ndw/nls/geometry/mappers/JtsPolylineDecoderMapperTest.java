@@ -1,5 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
@@ -19,5 +20,27 @@ class JtsPolylineDecoderMapperTest {
     void map_ok() {
         LineString lineString = polylineDecoderMapper.map(POLYLINE);
         assertEquals(WKT_RESULT, lineString.toString());
+    }
+
+    @Test
+    void map_ok_asObject() {
+        Object polylineAsObject = POLYLINE;
+        LineString lineString = polylineDecoderMapper.map(polylineAsObject);
+        assertEquals(WKT_RESULT, lineString.toString());
+    }
+
+    @Test
+    void map_ok_null() {
+        LineString lineString = polylineDecoderMapper.map(null);
+        assertEquals("LINESTRING EMPTY", lineString.toString());
+    }
+
+
+    @Test
+    void map_exception_notAString() {
+        Object notAString = new Object();
+        assertThatThrownBy(() -> polylineDecoderMapper.map(notAString))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageStartingWith("Geometry is not a valid encoded polyline");
     }
 }
