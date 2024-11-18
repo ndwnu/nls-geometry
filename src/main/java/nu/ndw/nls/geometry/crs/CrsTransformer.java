@@ -32,7 +32,9 @@ public class CrsTransformer {
 
     public Geometry transformFromWgs84ToRdNew(Geometry geometry) {
         try {
-            return JTS.transform(geometry, transformFromWgs84ToRdNew);
+            Geometry result = JTS.transform(geometry, transformFromWgs84ToRdNew);
+            result.setSRID(SRID.RIJKSDRIEHOEK.value);
+            return result;
         } catch (TransformException e) {
             throw new IllegalStateException("Failed to transform from WGS84 to RD New", e);
         }
@@ -40,7 +42,9 @@ public class CrsTransformer {
 
     public Geometry transformFromRdNewToWgs84(Geometry geometry) {
         try {
-            return JTS.transform(geometry, transformFromRdNewToWgs84);
+            Geometry result = JTS.transform(geometry, transformFromRdNewToWgs84);
+            result.setSRID(SRID.WGS84.value);
+            return result;
         } catch (TransformException e) {
             throw new IllegalStateException("Failed to transform from RD New to WGS84", e);
         }
