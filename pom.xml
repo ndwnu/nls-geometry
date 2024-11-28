@@ -16,7 +16,7 @@
     <packaging>jar</packaging>
 
     <name>nls-geometry</name>
-    <description>NWB NLS Geometry</description>
+    <description>NDW Location Services geometry library</description>
     <url>https://github.com/ndwnu/nls-geometry</url>
 
     <scm>
