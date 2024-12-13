@@ -3,7 +3,6 @@ package nu.ndw.nls.geometry.mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import nu.ndw.nls.geometry.config.GeometryMapperConfiguration;
-import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.assertj.core.data.Offset;
@@ -34,7 +33,7 @@ class DiameterToPolygonMapperIT {
         double diameterInMeters = 50;
         Polygon polygon = diameterToPolygonMapper.mapToPolygonWgs84(centerPoint, diameterInMeters);
         Coordinate coordinate = polygon.getCoordinate();
-        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(SRID.WGS84);
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         geodeticCalculator.setStartingGeographicPoint(centerPoint.getX(), centerPoint.getY());
         geodeticCalculator.setDestinationGeographicPoint(coordinate.getX(), coordinate.getY());
         assertThat(geodeticCalculator.getOrthodromicDistance()).isCloseTo(25, Offset.offset(0.005));

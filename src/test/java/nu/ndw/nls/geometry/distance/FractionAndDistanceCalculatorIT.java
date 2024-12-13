@@ -1,10 +1,12 @@
 package nu.ndw.nls.geometry.distance;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
+import nu.ndw.nls.geometry.factories.GeometryFactoryRijksdriehoek;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +24,12 @@ class FractionAndDistanceCalculatorIT {
     private static final Coordinate TO = new Coordinate(5.42672895, 52.17670980);
     private static final LineString LINE_STRING = new GeometryFactoryWgs84().createLineString(
             new Coordinate[]{FROM, TO});
+    private static final LineString LINE_STRING_RD = new GeometryFactoryRijksdriehoek().createLineString(
+            new Coordinate[]{FROM, TO});
     private static final double FRACTION_DISTANCE_DELTA = 0.00005;
     private static final double COORDINATE_DELTA = 0.0000001;
     private static final double BEARING_DELTA = 0.5;
+    private static final String ERROR_MESSAGE = "SRID must be WGS84 and is RIJKSDRIEHOEK";
 
     @Autowired
     private FractionAndDistanceCalculator fractionAndDistanceCalculator;
@@ -36,6 +41,29 @@ class FractionAndDistanceCalculatorIT {
         assertEquals(0.4953, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
         assertEquals(1.6719, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
         assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+    }
+
+    @Test
+    void calculateFractionAndDistance_ok_no_srid() {
+        LineString lineString = new GeometryFactoryWgs84().createLineString(
+                new Coordinate[]{FROM, TO});
+        lineString.setSRID(0);
+        FractionAndDistance fractionAndDistance = fractionAndDistanceCalculator.calculateFractionAndDistance(
+                lineString, new Coordinate(5.426716016, 52.17672277));
+        assertEquals(0.4953, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
+        assertEquals(1.6719, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
+        assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+    }
+
+
+    @Test
+    void calculateFractionAndDistance_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.calculateFractionAndDistance(
+                        LINE_STRING_RD, new Coordinate(5.426716016, 52.17672277)))
+                .withMessage(ERROR_MESSAGE);
+
+
     }
 
     @Test
@@ -75,6 +103,16 @@ class FractionAndDistanceCalculatorIT {
     }
 
     @Test
+    void getSubLineStringByLengthInMeters_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.getSubLineStringByLengthInMeters(
+                        LINE_STRING_RD, 2))
+                .withMessage(ERROR_MESSAGE);
+
+
+    }
+
+    @Test
     void getSubLineStringByLengthInMeters_ok_distanceInMetersIsLargerThatOriginalLineString() {
 
         LineString originalLineString = createLineString(
@@ -92,6 +130,13 @@ class FractionAndDistanceCalculatorIT {
     void calculateLengthInMeters_ok() {
         double lengthInMeters = fractionAndDistanceCalculator.calculateLengthInMeters(LINE_STRING);
         assertEquals(3.3758, lengthInMeters, FRACTION_DISTANCE_DELTA);
+    }
+
+    @Test
+    void calculateLengthInMeters_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.calculateLengthInMeters(LINE_STRING_RD))
+                .withMessage(ERROR_MESSAGE);
     }
 
     @Test
@@ -143,6 +188,21 @@ class FractionAndDistanceCalculatorIT {
     }
 
     @Test
+    void getSubLineString_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.getSubLineString(LINE_STRING_RD, 0.5))
+                .withMessage(ERROR_MESSAGE);
+    }
+
+    @Test
+    void getSubLineStringStartEnd_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.getSubLineString(LINE_STRING_RD, 0.5, 1.0))
+                .withMessage(ERROR_MESSAGE);
+    }
+
+
+    @Test
     void getCoordinateAndBearing_ok() {
         LineString originalLineString = createLineString(FROM, TO);
         CoordinateAndBearing coordinateAndBearing = fractionAndDistanceCalculator.getCoordinateAndBearing(
@@ -150,7 +210,16 @@ class FractionAndDistanceCalculatorIT {
         assertEquals(149, coordinateAndBearing.bearing(), BEARING_DELTA);
     }
 
+
+    @Test
+    void getCoordinateAndBearing_exception() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> fractionAndDistanceCalculator.getCoordinateAndBearing(LINE_STRING_RD, 0.5))
+                .withMessage(ERROR_MESSAGE);
+    }
+
     private LineString createLineString(Coordinate... coordinates) {
         return new GeometryFactoryWgs84().createLineString(coordinates);
     }
+
 }
