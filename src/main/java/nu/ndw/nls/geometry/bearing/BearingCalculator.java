@@ -2,7 +2,6 @@ package nu.ndw.nls.geometry.bearing;
 
 import lombok.RequiredArgsConstructor;
 import nu.ndw.nls.geometry.bearing.model.BearingFilter;
-import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
 import org.geotools.referencing.GeodeticCalculator;
 import org.locationtech.jts.geom.Coordinate;
@@ -29,9 +28,8 @@ public class BearingCalculator {
         return Math.min(delta, MAX_BEARING - delta);
     }
 
-    public double calculateBearing(Coordinate currentCoordinate, Coordinate nextCoordinate, SRID srid) {
-        SRID defaultsrid = srid != null ? srid : SRID.WGS84;
-        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(defaultsrid);
+    public double calculateBearing(Coordinate currentCoordinate, Coordinate nextCoordinate) {
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         geodeticCalculator.setStartingGeographicPoint(currentCoordinate.getX(), currentCoordinate.getY());
         geodeticCalculator.setDestinationGeographicPoint(nextCoordinate.getX(), nextCoordinate.getY());
         double bearing = geodeticCalculator.getAzimuth();

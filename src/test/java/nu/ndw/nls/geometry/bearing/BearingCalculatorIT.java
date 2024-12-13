@@ -57,7 +57,7 @@ class BearingCalculatorIT {
         var fromCoordinate = new Coordinate(0.0, 1.0);
         var toCoordinate = new Coordinate(-1.0, -2.0);
 
-        assertThat(bearingCalculator.calculateBearing(fromCoordinate, toCoordinate, null)).isEqualTo(
+        assertThat(bearingCalculator.calculateBearing(fromCoordinate, toCoordinate)).isEqualTo(
                 198.54804530050606);
     }
 
@@ -66,6 +66,6 @@ class BearingCalculatorIT {
         var fromCoordinate = new Coordinate(0.0, 1.0);
         var toCoordinate = new Coordinate(1.0, 2.0);
 
-        assertThat(bearingCalculator.calculateBearing(fromCoordinate, toCoordinate, null)).isEqualTo(45.17047008417188);
+        assertThat(bearingCalculator.calculateBearing(fromCoordinate, toCoordinate)).isEqualTo(45.17047008417188);
     }
 }

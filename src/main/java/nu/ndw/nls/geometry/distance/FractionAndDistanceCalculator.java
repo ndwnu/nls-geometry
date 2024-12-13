@@ -3,21 +3,18 @@ package nu.ndw.nls.geometry.distance;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nu.ndw.nls.geometry.bearing.BearingCalculator;
 import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
-import nu.ndw.nls.geometry.factories.GeometryFactorySrid;
+import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.geotools.referencing.GeodeticCalculator;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.linearref.LinearLocation;
 import org.locationtech.jts.linearref.LocationIndexedLine;
@@ -25,24 +22,18 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class FractionAndDistanceCalculator {
 
     private static final double DISTANCE_TOLERANCE_1_CM = 0.01;
     private final GeodeticCalculatorFactory geodeticCalculatorFactory;
-    private final Map<SRID, GeometryFactorySrid> geometryFactorySridMap;
+    private final GeometryFactoryWgs84 geometryFactoryWgs84;
     private final BearingCalculator bearingCalculator;
 
-    public FractionAndDistanceCalculator(GeodeticCalculatorFactory geodeticCalculatorFactory,
-            List<GeometryFactorySrid> geometryFactories, BearingCalculator bearingCalculator) {
-        this.geodeticCalculatorFactory = geodeticCalculatorFactory;
-        this.geometryFactorySridMap = geometryFactories.stream()
-                .collect(Collectors.toMap(GeometryFactorySrid::getSrid, Function.identity()));
-        this.bearingCalculator = bearingCalculator;
-    }
 
     public FractionAndDistance calculateFractionAndDistance(LineString line, Coordinate inputCoordinate) {
-        SRID srid = SRID.fromValue(line.getSRID());
-        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(srid);
+        validateWGS84(line);
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         LocationIndexedLine locationIndexedLine = new LocationIndexedLine(line);
         LinearLocation snappedPointLocation = locationIndexedLine.project(inputCoordinate);
         Coordinate snappedPointCoordinate = snappedPointLocation.getCoordinate(line);
@@ -76,9 +67,10 @@ public class FractionAndDistanceCalculator {
                 .build();
     }
 
+
     public double calculateLengthInMeters(LineString lineString) {
-        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(SRID.fromValue(
-                lineString.getSRID()));
+        validateWGS84(lineString);
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         Coordinate[] coordinates = lineString.getCoordinates();
         return IntStream.range(1, coordinates.length)
                 .mapToDouble(
@@ -87,7 +79,7 @@ public class FractionAndDistanceCalculator {
     }
 
     public LineString getSubLineStringByLengthInMeters(LineString lineString, double distanceInMeters) {
-
+        validateWGS84(lineString);
         double lineStringLengthInMeters = calculateLengthInMeters(lineString);
         if (distanceInMeters >= lineStringLengthInMeters) {
             return lineString;
@@ -102,16 +94,17 @@ public class FractionAndDistanceCalculator {
      * Extract a subsection from the provided lineString, starting at 0 and ending at the provided fraction.
      */
     public LineString getSubLineString(LineString lineString, double fraction) {
+        validateWGS84(lineString);
         return getSubLineStringAndLastBearing(lineString, fraction).subLineString();
     }
 
     /**
-     * Extract a subsection from the provided lineString, starting and ending at the provided fractions. This is a quick
-     * and dirty implementation that calls getSubLineStringAndLastBearingByMetres twice, because it currently only
-     * supports end metres.
+     * Extract a subsection from the provided lineString, starting and ending at the provided fractions. This is a quick and dirty
+     * implementation that calls getSubLineStringAndLastBearingByMetres twice, because it currently only supports end metres.
      * TODO Add support for start metres to getSubLineStringAndLastBearingByMetres, so we only have to call it once.
      */
     public LineString getSubLineString(LineString lineString, double startFraction, double endFraction) {
+        validateWGS84(lineString);
         double length = calculateLengthInMeters(lineString);
         double startMetres = startFraction * length;
         double endMetres = endFraction * length;
@@ -139,8 +132,7 @@ public class FractionAndDistanceCalculator {
 
     private SubLineStringAndLastBearing getSubLineStringAndLastBearingByMetres(LineString lineString,
             double fractionLength) {
-        SRID srid = SRID.fromValue(lineString.getSRID());
-        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator(srid);
+        GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         double sumOfPathLengths = 0;
         Coordinate[] coordinates = lineString.getCoordinates();
         List<Coordinate> result = new ArrayList<>();
@@ -170,21 +162,13 @@ public class FractionAndDistanceCalculator {
                 }
             }
         }
-        GeometryFactory geometryFactory = getGeometryFactory(srid);
         return SubLineStringAndLastBearing
                 .builder()
-                .subLineString(geometryFactory.createLineString(result.toArray(new Coordinate[0])))
+                .subLineString(geometryFactoryWgs84.createLineString(result.toArray(new Coordinate[0])))
                 .lastBearing(bearingCalculator.normaliseBearing(lastBearing))
                 .build();
     }
 
-    private GeometryFactory getGeometryFactory(SRID srid) {
-        if (geometryFactorySridMap.containsKey(srid)) {
-            return (GeometryFactory) geometryFactorySridMap.get(srid);
-        } else {
-            throw new IllegalArgumentException("SRID " + srid + " not supported");
-        }
-    }
 
     private static double calculateDistance(Coordinate from, Coordinate to, GeodeticCalculator geodeticCalculator) {
         geodeticCalculator.setStartingGeographicPoint(to.getX(), to.getY());
@@ -198,6 +182,13 @@ public class FractionAndDistanceCalculator {
         Coordinate getLastCoordinate() {
             int lastIndex = subLineString.getNumPoints() - 1;
             return subLineString.getCoordinateN(lastIndex);
+        }
+    }
+
+    private void validateWGS84(LineString line) {
+        SRID srid = line.getSRID() == 0 ? SRID.WGS84 : SRID.fromValue(line.getSRID());
+        if (srid != SRID.WGS84) {
+            throw new IllegalArgumentException("SRID must be WGS84 and is %s".formatted(srid));
         }
     }
 }
