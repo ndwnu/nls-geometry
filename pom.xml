@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.1</version>
     </parent>
 
     <groupId>nu.ndw.nls.geometry</groupId>
@@ -30,7 +30,7 @@
         <lombok.version>1.18.36</lombok.version>
         <geotools.version>32.1</geotools.version>
         <slf4j-api.version>2.0.16</slf4j-api.version>
-        <assertj.version>3.26.3</assertj.version>
+        <assertj.version>3.27.2</assertj.version>
         <mapbox-sdk-geojson.version>5.8.0</mapbox-sdk-geojson.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     </properties>
