@@ -14,31 +14,33 @@ import org.locationtech.jts.io.WKTReader;
 
 class FrechetDistanceCalculatorTest {
 
+    private static final double DELTA_NEAREST_MILLIMETRE = 0.0005;
+
     private final FrechetDistanceCalculator frechetDistanceCalculator = new FrechetDistanceCalculator(new GeodeticCalculatorFactory());
     private final WKTReader wktReader = new WKTReader(new GeometryFactoryWgs84());
 
     @Test
-    void calculateFrechetDistance_ok_normalDistance() {
+    void calculateFrechetDistanceInMetresFromWgs84_ok_normalDistance() {
         LineString lineShape = readWktFromFile("/test-data/siterecord_218928_line_shape.txt");
         LineString fcdGeometry = readWktFromFile("/test-data/siterecord_218928_fcd_geometry.txt");
-        double frechetDistance = frechetDistanceCalculator.calculateFrechetDistance(lineShape, fcdGeometry);
-        assertEquals(7.9784048890492585, frechetDistance);
+        double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineShape, fcdGeometry);
+        assertEquals(7.978, frechetDistance, DELTA_NEAREST_MILLIMETRE);
     }
 
     @Test
-    void calculateFrechetDistance_ok_largeDistanceDueToLoop() {
+    void calculateFrechetDistanceInMetresFromWgs84_ok_largeDistanceDueToLoop() {
         LineString lineShape = readWktFromFile("/test-data/siterecord_200732_line_shape.txt");
         LineString fcdGeometry = readWktFromFile("/test-data/siterecord_200732_fcd_geometry.txt");
-        double frechetDistance = frechetDistanceCalculator.calculateFrechetDistance(lineShape, fcdGeometry);
-        assertEquals(2153.0395525485847, frechetDistance);
+        double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineShape, fcdGeometry);
+        assertEquals(2153.04, frechetDistance, DELTA_NEAREST_MILLIMETRE);
     }
 
     @Test
-    void calculateFrechetDistance_exception_notWgs84() {
+    void calculateFrechetDistanceInMetresFromWgs84_exception_notWgs84() {
         LineString lineStringRd = new GeometryFactoryRijksdriehoek().createLineString();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> frechetDistanceCalculator.calculateFrechetDistance(lineStringRd, lineStringRd));
-        assertEquals("SRID must be WGS84 and is RIJKSDRIEHOEK", exception.getMessage());
+                () -> frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineStringRd, lineStringRd));
+        assertEquals("SRID must be WGS84, but is RIJKSDRIEHOEK", exception.getMessage());
     }
 
     @SneakyThrows
