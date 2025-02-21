@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
  * Car A drives the original geometry, car B drives the matched geometry. They can vary their speed to stay as close to each other as
  * possible, but they cannot not drive backwards. Fréchet distance is the maximum distance the cars are apart over the whole trajectory.
  * Where the Hausdorff distance only finds the largest distance between the two lines, Fréchet also finds loops in the matched geometry.
+ * <p>
+ * We have our own implementation instead of using JTS, because the latter uses a more naive approach that goes out of memory for long
+ * trajectories.
  */
 @Component
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ public class FrechetDistanceCalculator {
 
     private final GeodeticCalculatorFactory geodeticCalculatorFactory;
 
-    public double calculateFrechetDistance(LineString p, LineString q) {
+    public double calculateFrechetDistanceInMetresFromWgs84(LineString p, LineString q) {
         CrsValidator.validateWgs84(p);
         CrsValidator.validateWgs84(q);
 
