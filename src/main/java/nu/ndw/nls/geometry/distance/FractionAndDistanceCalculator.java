@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nu.ndw.nls.geometry.bearing.BearingCalculator;
-import nu.ndw.nls.geometry.constants.SRID;
+import nu.ndw.nls.geometry.crs.CrsValidator;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
 import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
@@ -30,9 +30,8 @@ public class FractionAndDistanceCalculator {
     private final GeometryFactoryWgs84 geometryFactoryWgs84;
     private final BearingCalculator bearingCalculator;
 
-
     public FractionAndDistance calculateFractionAndDistance(LineString line, Coordinate inputCoordinate) {
-        validateWGS84(line);
+        CrsValidator.validateWgs84(line);
         GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         LocationIndexedLine locationIndexedLine = new LocationIndexedLine(line);
         LinearLocation snappedPointLocation = locationIndexedLine.project(inputCoordinate);
@@ -67,9 +66,8 @@ public class FractionAndDistanceCalculator {
                 .build();
     }
 
-
     public double calculateLengthInMeters(LineString lineString) {
-        validateWGS84(lineString);
+        CrsValidator.validateWgs84(lineString);
         GeodeticCalculator geodeticCalculator = geodeticCalculatorFactory.createGeodeticCalculator();
         Coordinate[] coordinates = lineString.getCoordinates();
         return IntStream.range(1, coordinates.length)
@@ -79,7 +77,7 @@ public class FractionAndDistanceCalculator {
     }
 
     public LineString getSubLineStringByLengthInMeters(LineString lineString, double distanceInMeters) {
-        validateWGS84(lineString);
+        CrsValidator.validateWgs84(lineString);
         double lineStringLengthInMeters = calculateLengthInMeters(lineString);
         if (distanceInMeters >= lineStringLengthInMeters) {
             return lineString;
@@ -94,7 +92,7 @@ public class FractionAndDistanceCalculator {
      * Extract a subsection from the provided lineString, starting at 0 and ending at the provided fraction.
      */
     public LineString getSubLineString(LineString lineString, double fraction) {
-        validateWGS84(lineString);
+        CrsValidator.validateWgs84(lineString);
         return getSubLineStringAndLastBearing(lineString, fraction).subLineString();
     }
 
@@ -104,7 +102,7 @@ public class FractionAndDistanceCalculator {
      * TODO Add support for start metres to getSubLineStringAndLastBearingByMetres, so we only have to call it once.
      */
     public LineString getSubLineString(LineString lineString, double startFraction, double endFraction) {
-        validateWGS84(lineString);
+        CrsValidator.validateWgs84(lineString);
         double length = calculateLengthInMeters(lineString);
         double startMetres = startFraction * length;
         double endMetres = endFraction * length;
@@ -169,8 +167,7 @@ public class FractionAndDistanceCalculator {
                 .build();
     }
 
-
-    private static double calculateDistance(Coordinate from, Coordinate to, GeodeticCalculator geodeticCalculator) {
+    static double calculateDistance(Coordinate from, Coordinate to, GeodeticCalculator geodeticCalculator) {
         geodeticCalculator.setStartingGeographicPoint(to.getX(), to.getY());
         geodeticCalculator.setDestinationGeographicPoint(from.getX(), from.getY());
         return geodeticCalculator.getOrthodromicDistance();
@@ -182,13 +179,6 @@ public class FractionAndDistanceCalculator {
         Coordinate getLastCoordinate() {
             int lastIndex = subLineString.getNumPoints() - 1;
             return subLineString.getCoordinateN(lastIndex);
-        }
-    }
-
-    private void validateWGS84(LineString line) {
-        SRID srid = line.getSRID() == 0 ? SRID.WGS84 : SRID.fromValue(line.getSRID());
-        if (srid != SRID.WGS84) {
-            throw new IllegalArgumentException("SRID must be WGS84 and is %s".formatted(srid));
         }
     }
 }
