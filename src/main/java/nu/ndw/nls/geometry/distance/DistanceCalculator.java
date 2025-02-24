@@ -1,9 +1,8 @@
 package nu.ndw.nls.geometry.distance;
 
 import lombok.RequiredArgsConstructor;
-import nu.ndw.nls.geometry.constants.SRID;
 import nu.ndw.nls.geometry.crs.CrsTransformer;
-import org.locationtech.jts.geom.Geometry;
+import nu.ndw.nls.geometry.crs.CrsValidator;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.operation.distance.DistanceOp;
@@ -27,19 +26,12 @@ public class DistanceCalculator {
      * geodetic calculator will introduce a noticeable error.
      */
     public double calculateDistance(Point sourcePoint, LineString targetLineString) {
-        validateWGS84(sourcePoint);
-        validateWGS84(targetLineString);
+        CrsValidator.validateWgs84(sourcePoint);
+        CrsValidator.validateWgs84(targetLineString);
 
         Point sourcePointRD = (Point) crsTransformer.transformFromWgs84ToRdNew(sourcePoint);
         LineString targetLineStringRD = (LineString) crsTransformer.transformFromWgs84ToRdNew(targetLineString);
 
         return DistanceOp.distance(sourcePointRD, targetLineStringRD);
-    }
-
-    private void validateWGS84(Geometry geometry) {
-        SRID srid = geometry.getSRID() == 0 ? SRID.WGS84 : SRID.fromValue(geometry.getSRID());
-        if (srid != SRID.WGS84) {
-            throw new IllegalArgumentException("SRID must be WGS84 and is %s".formatted(srid));
-        }
     }
 }

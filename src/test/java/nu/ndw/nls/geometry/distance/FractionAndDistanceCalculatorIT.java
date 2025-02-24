@@ -29,7 +29,7 @@ class FractionAndDistanceCalculatorIT {
     private static final double FRACTION_DISTANCE_DELTA = 0.00005;
     private static final double COORDINATE_DELTA = 0.0000001;
     private static final double BEARING_DELTA = 0.5;
-    private static final String ERROR_MESSAGE = "SRID must be WGS84 and is RIJKSDRIEHOEK";
+    private static final String ERROR_MESSAGE = "SRID must be WGS84, but is RIJKSDRIEHOEK";
 
     @Autowired
     private FractionAndDistanceCalculator fractionAndDistanceCalculator;
