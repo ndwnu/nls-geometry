@@ -67,6 +67,6 @@ class DistanceCalculatorIT {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> distanceCalculator.calculateDistance(sourcePoint, targetLineString))
-                .withMessage("SRID must be WGS84 and is RIJKSDRIEHOEK");
+                .withMessage("SRID must be WGS84, but is RIJKSDRIEHOEK");
     }
 }
