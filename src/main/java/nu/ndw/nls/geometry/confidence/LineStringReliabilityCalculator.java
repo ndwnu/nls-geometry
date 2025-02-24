@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class LineStringConfidenceCalculator {
+public class LineStringReliabilityCalculator {
 
-    private static final int MIN_CONFIDENCE_SCORE = 0;
-    private static final int MAX_CONFIDENCE_SCORE = 100;
+    private static final int MIN_RELIABILITY_SCORE = 0;
+    private static final int MAX_RELIABILITY_SCORE = 100;
     private static final double DISTANCE_PENALTY_FACTOR = 1.5;
 
     private final FrechetDistanceCalculator frechetDistanceCalculator;
 
-    public double calculateLineStringConfidenceScore(LineString originalGeometry, LineString matchGeometry) {
+    public double calculateLineStringReliability(LineString originalGeometry, LineString matchGeometry) {
         double maximumDistanceInMeters = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(originalGeometry,
                 matchGeometry);
 
-        double score = MAX_CONFIDENCE_SCORE - (DISTANCE_PENALTY_FACTOR * maximumDistanceInMeters);
-        return Math.max(MIN_CONFIDENCE_SCORE, score);
+        double score = MAX_RELIABILITY_SCORE - (DISTANCE_PENALTY_FACTOR * maximumDistanceInMeters);
+        return Math.max(MIN_RELIABILITY_SCORE, score);
     }
 }

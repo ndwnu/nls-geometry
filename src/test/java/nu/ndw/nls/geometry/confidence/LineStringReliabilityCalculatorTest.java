@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class LineStringConfidenceCalculatorTest {
+class LineStringReliabilityCalculatorTest {
 
     @Mock
     private FrechetDistanceCalculator frechetDistanceCalculator;
@@ -22,17 +22,17 @@ class LineStringConfidenceCalculatorTest {
     private LineString matchGeometry;
 
     @InjectMocks
-    private LineStringConfidenceCalculator lineStringConfidenceCalculator;
+    private LineStringReliabilityCalculator lineStringReliabilityCalculator;
 
     @Test
-    void calculateLineStringConfidenceScore_ok() {
+    void calculateLineStringReliability_ok() {
         when(frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(originalGeometry, matchGeometry)).thenReturn(10.0);
-        assertEquals(85.0, lineStringConfidenceCalculator.calculateLineStringConfidenceScore(originalGeometry, matchGeometry));
+        assertEquals(85.0, lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry));
     }
 
     @Test
-    void calculateLineStringConfidenceScore_ok_minimumValue() {
+    void calculateLineStringReliability_ok_minimumValue() {
         when(frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(originalGeometry, matchGeometry)).thenReturn(1000.0);
-        assertEquals(0.0, lineStringConfidenceCalculator.calculateLineStringConfidenceScore(originalGeometry, matchGeometry));
+        assertEquals(0.0, lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry));
     }
 }
