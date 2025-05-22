@@ -32,7 +32,6 @@ extends:
     skipPerformanceTesting: true
     skipDocker: true
     skipDeployment: true
-    mavenReleaseGoal: deploy
     sonarOptionalCoverageExclusions: '**/*Config.*,**/*Configuration.*'
     mavenDeployToNdwShared: true
     pushToGitHub: true
