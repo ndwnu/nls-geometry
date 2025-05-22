@@ -4,7 +4,7 @@ trigger:
       - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: Kubernetes
 
 resources:
   repositories:
@@ -13,11 +13,25 @@ resources:
       name: NLS/nls-pipeline-templates
       ref: main
 
+parameters:
+  - name: skipSonar
+    type: boolean
+    default: false
+  - name: skipTests
+    type: boolean
+    default: false
+
 extends:
-  template: azure-pipelines-java.yml@nls-pipeline-templates
+  template: v2/pipelines/java.yml@nls-pipeline-templates
   parameters:
-    isVersionedProject: true
     jdkVersion: 1.21
+    skipSonar: ${{ parameters.skipSonar }}
+    skipTests: ${{ parameters.skipTests }}
+    skipSecurityScanning: true
+    skipComponentTesting: true
+    skipPerformanceTesting: true
+    skipDocker: true
+    skipDeployment: true
     mavenReleaseGoal: deploy
     sonarOptionalCoverageExclusions: '**/*Config.*,**/*Configuration.*'
     mavenDeployToNdwShared: true
