@@ -12,7 +12,7 @@
 
     <groupId>nu.ndw.nls.geometry</groupId>
     <artifactId>nls-geometry</artifactId>
-    <version>5.0.4-SNAPSHOT</version>
+    <version>5.0.4</version>
     <packaging>jar</packaging>
 
     <name>nls-geometry</name>
