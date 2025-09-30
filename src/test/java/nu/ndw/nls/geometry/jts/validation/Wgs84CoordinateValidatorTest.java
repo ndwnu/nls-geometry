@@ -2,11 +2,11 @@ package nu.ndw.nls.geometry.jts.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.locationtech.jts.geom.Coordinate;
 
-class WGS84CoordinateValidatorTest {
+class Wgs84CoordinateValidatorTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
@@ -19,7 +19,7 @@ class WGS84CoordinateValidatorTest {
             -180,-90.1,false
             -180,90.1,false
             """)
-    void isValidWgs84Coordinates(double longitude, double latitude, boolean expectedResult) {
-        assertThat(WGS84CoordinateValidator.isValidWgs84Coordinates(List.of(longitude, latitude))).isEqualTo(expectedResult);
+    void isValidWgs84Coordinate_ok(double longitude, double latitude, boolean expectedResult) {
+        assertThat(Wgs84CoordinateValidator.isValidWgs84Coordinate(new Coordinate(longitude, latitude))).isEqualTo(expectedResult);
     }
 }
