@@ -32,7 +32,7 @@
     <slf4j-api.version>2.0.17</slf4j-api.version>
     <assertj.version>3.27.6</assertj.version>
     <mapbox-sdk-geojson.version>5.8.0</mapbox-sdk-geojson.version>
-    <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
   </properties>
 
   <dependencies>
