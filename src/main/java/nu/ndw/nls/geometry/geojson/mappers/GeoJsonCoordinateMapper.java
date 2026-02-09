@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import nu.ndw.nls.geometry.jts.mappers.StringParamJtsCoordinateMapper;
+import nu.ndw.nls.geometry.jts.mappers.StringJtsCoordinateMapper;
 import nu.ndw.nls.geometry.rounding.dto.RoundDoubleConfiguration;
 import nu.ndw.nls.geometry.rounding.mappers.RoundDoubleMapper;
 import org.locationtech.jts.geom.Coordinate;
@@ -28,7 +28,7 @@ public class GeoJsonCoordinateMapper {
     }
 
     /**
-     * @deprecated Use the dedicated JTS coordinate to String param mapper {@link StringParamJtsCoordinateMapper#map(List)} instead
+     * @deprecated Use the dedicated JTS coordinate to String param mapper {@link StringJtsCoordinateMapper#map(List)} instead
      */
     @Deprecated
     public String mapList(List<Coordinate> coordinates) {

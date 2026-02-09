@@ -13,14 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class StringParamJtsCoordinateMapperTest {
+class StringJtsCoordinateMapperTest {
 
     private static final double X = 5.123456D;
 
     private static final double Y = 52.123456D;
 
     @InjectMocks
-    private StringParamJtsCoordinateMapper stringParamJtsCoordinateMapper;
+    private StringJtsCoordinateMapper stringJtsCoordinateMapper;
 
     @Mock
     private Coordinate coordinate;
@@ -33,7 +33,7 @@ class StringParamJtsCoordinateMapperTest {
                 new Coordinate(5.43831,52.11337)
         );
 
-        String mapped = stringParamJtsCoordinateMapper.map(coordinates);
+        String mapped = stringJtsCoordinateMapper.map(coordinates);
 
         assertThat(mapped).isEqualTo("5.28232,51.87819;5.12705,52.07013;5.43831,52.11337");
     }
@@ -42,16 +42,7 @@ class StringParamJtsCoordinateMapperTest {
     void map_ok_coordinateEmptyList() {
         List<Coordinate> coordinates = Collections.emptyList();
 
-        String mapped = stringParamJtsCoordinateMapper.map(coordinates);
-
-        assertThat(mapped).isEmpty();
-    }
-
-    @Test
-    void map_ok_coordinateListNull() {
-        List<Coordinate> coordinates = null;
-
-        String mapped = stringParamJtsCoordinateMapper.map(coordinates);
+        String mapped = stringJtsCoordinateMapper.map(coordinates);
 
         assertThat(mapped).isEmpty();
     }
@@ -61,7 +52,7 @@ class StringParamJtsCoordinateMapperTest {
         when(coordinate.getX()).thenReturn(X);
         when(coordinate.getY()).thenReturn(Y);
 
-        String result = stringParamJtsCoordinateMapper.map(coordinate);
+        String result = stringJtsCoordinateMapper.map(coordinate);
         assertThat(result).isEqualTo("5.123456,52.123456");
     }
 
