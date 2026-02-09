@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.factories;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -16,7 +16,7 @@ class GeometryFactoryWgs84Test {
     GeometryFactoryWgs84 factoryRijksdriehoek = new GeometryFactoryWgs84();
 
     @Test
-    public void createLineString_ok() {
+    void createLineString_ok() {
 
         Coordinate[] pointArray = new Coordinate[]{
                 new Coordinate(POINT_A_COORDINATE_X, POINT_A_COORDINATE_Y),
@@ -28,10 +28,10 @@ class GeometryFactoryWgs84Test {
         Coordinate coordinate1 = lineString.getCoordinateSequence().getCoordinate(0);
         Coordinate coordinate2 = lineString.getCoordinateSequence().getCoordinate(1);
 
-        assertEquals(POINT_A_COORDINATE_X, coordinate1.getX());
-        assertEquals(POINT_A_COORDINATE_Y, coordinate1.getY());
-        assertEquals(POINT_B_COORDINATE_X, coordinate2.getX());
-        assertEquals(POINT_B_COORDINATE_Y, coordinate2.getY());
+        assertThat(coordinate1.getX()).isEqualTo(POINT_A_COORDINATE_X);
+        assertThat(coordinate1.getY()).isEqualTo(POINT_A_COORDINATE_Y);
+        assertThat(coordinate2.getX()).isEqualTo(POINT_B_COORDINATE_X);
+        assertThat(coordinate2.getY()).isEqualTo(POINT_B_COORDINATE_Y);
 
     }
 }

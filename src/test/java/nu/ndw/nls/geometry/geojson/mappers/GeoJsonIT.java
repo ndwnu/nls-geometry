@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import lombok.SneakyThrows;
@@ -34,7 +34,7 @@ class GeoJsonIT {
 
             List<List<List<Double>>> coordinates = geoJsonMultiLineStringCoordinateMapper.map(multiLineString);
 
-            assertEquals(List.of(lineStringA, lineStringB), coordinates);
+            assertThat(coordinates).isEqualTo(List.of(lineStringA, lineStringB));
         } else {
             throw new IllegalArgumentException("Expecting multi line string");
         }

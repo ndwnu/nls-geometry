@@ -1,9 +1,6 @@
 package nu.ndw.nls.geometry.bearing;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.bearing.model.BearingFilter;
@@ -25,31 +22,31 @@ class BearingCalculatorIT {
 
     @Test
     void bearingIsInRange_true_bearingFilterNull() {
-        assertTrue(bearingCalculator.bearingIsInRange(10.0, null));
+        assertThat(bearingCalculator.bearingIsInRange(10.0, null)).isTrue();
     }
 
     @Test
     void bearingIsInRange_true_inRange() {
-        assertTrue(bearingCalculator.bearingIsInRange(0, BEARING_FILTER_WITH_WRAPAROUND));
+        assertThat(bearingCalculator.bearingIsInRange(0, BEARING_FILTER_WITH_WRAPAROUND)).isTrue();
         // 360 is equivalent to 0.
-        assertTrue(bearingCalculator.bearingIsInRange(360, BEARING_FILTER_WITH_WRAPAROUND));
+        assertThat(bearingCalculator.bearingIsInRange(360, BEARING_FILTER_WITH_WRAPAROUND)).isTrue();
         // Range is inclusive.
-        assertTrue(bearingCalculator.bearingIsInRange(350, BEARING_FILTER_WITH_WRAPAROUND));
-        assertTrue(bearingCalculator.bearingIsInRange(10, BEARING_FILTER_WITH_WRAPAROUND));
+        assertThat(bearingCalculator.bearingIsInRange(350, BEARING_FILTER_WITH_WRAPAROUND)).isTrue();
+        assertThat(bearingCalculator.bearingIsInRange(10, BEARING_FILTER_WITH_WRAPAROUND)).isTrue();
     }
 
     @Test
     void bearingIsInRange_false_notInRange() {
-        assertFalse(bearingCalculator.bearingIsInRange(349.9, BEARING_FILTER_WITH_WRAPAROUND));
-        assertFalse(bearingCalculator.bearingIsInRange(10.1, BEARING_FILTER_WITH_WRAPAROUND));
+        assertThat(bearingCalculator.bearingIsInRange(349.9, BEARING_FILTER_WITH_WRAPAROUND)).isFalse();
+        assertThat(bearingCalculator.bearingIsInRange(10.1, BEARING_FILTER_WITH_WRAPAROUND)).isFalse();
     }
 
     @Test
     void bearingDelta_ok() {
-        assertEquals(0, bearingCalculator.bearingDelta(0, 360));
-        assertEquals(0, bearingCalculator.bearingDelta(360, 0));
-        assertEquals(179, bearingCalculator.bearingDelta(0, 181));
-        assertEquals(2, bearingCalculator.bearingDelta(1, 359));
+        assertThat(bearingCalculator.bearingDelta(0, 360)).isZero();
+        assertThat(bearingCalculator.bearingDelta(360, 0)).isZero();
+        assertThat(bearingCalculator.bearingDelta(0, 181)).isEqualTo(179);
+        assertThat(bearingCalculator.bearingDelta(1, 359)).isEqualTo(2);
     }
 
     @Test

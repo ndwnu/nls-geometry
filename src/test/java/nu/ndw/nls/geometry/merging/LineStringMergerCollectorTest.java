@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.merging;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -25,8 +25,8 @@ class LineStringMergerCollectorTest {
                 new Coordinate(5.431601, 52.178947), new Coordinate(5.43111, 52.178622),
                 new Coordinate(5.431077, 52.1786), new Coordinate(5.430663, 52.178413));
 
-        assertEquals(List.of(expected), Stream.of(lineString1, lineString2)
-                .collect(new LineStringMergerCollector()));
+        assertThat(Stream.of(lineString1, lineString2)
+                .collect(new LineStringMergerCollector())).isEqualTo(List.of(expected));
     }
 
     private LineString createLineString(Coordinate... coordinates) {

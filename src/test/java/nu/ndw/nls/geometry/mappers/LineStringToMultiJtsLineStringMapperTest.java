@@ -1,7 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +31,7 @@ class LineStringToMultiJtsLineStringMapperTest {
         MultiLineString expected = (MultiLineString)
                 wktReader.read("MULTILINESTRING ((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))");
 
-        assertTrue(result.isPresent());
-        assertEquals(expected, result.get());
+        assertThat(result).contains(expected);
     }
 
     @Test
@@ -49,6 +47,6 @@ class LineStringToMultiJtsLineStringMapperTest {
         MultiLineString expected = (MultiLineString)
                 wktReader.read("MULTILINESTRING ((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))");
 
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 }
