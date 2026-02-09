@@ -1,6 +1,7 @@
 package nu.ndw.nls.geometry.jts.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -26,7 +27,7 @@ class StringJtsCoordinateMapperTest {
     private Coordinate coordinate;
 
     @Test
-    void map_ok_coordinateList() {
+    void map_coordinateList() {
         List<Coordinate> coordinates = List.of(
                 new Coordinate(5.28232,51.87819),
                 new Coordinate(5.12705,52.07013),
@@ -39,7 +40,7 @@ class StringJtsCoordinateMapperTest {
     }
 
     @Test
-    void map_ok_coordinateEmptyList() {
+    void map_coordinateEmptyList() {
         List<Coordinate> coordinates = Collections.emptyList();
 
         String mapped = stringJtsCoordinateMapper.map(coordinates);
@@ -48,12 +49,30 @@ class StringJtsCoordinateMapperTest {
     }
 
     @Test
-    void map_ok_coordinate() {
+    void map_coordinateNull() {
+        List<Coordinate> coordinates = null;
+
+        assertThatThrownBy(() -> stringJtsCoordinateMapper.map(coordinates))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void map_coordinate() {
         when(coordinate.getX()).thenReturn(X);
         when(coordinate.getY()).thenReturn(Y);
 
         String result = stringJtsCoordinateMapper.map(coordinate);
         assertThat(result).isEqualTo("5.123456,52.123456");
     }
+
+    @Test
+    void map_coordinate_null() {
+        Coordinate coordinate = null;
+
+        assertThatThrownBy(() -> stringJtsCoordinateMapper.map(coordinate))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+
 
 }
