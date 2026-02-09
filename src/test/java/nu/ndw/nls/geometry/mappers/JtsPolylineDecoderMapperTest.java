@@ -25,13 +25,13 @@ class JtsPolylineDecoderMapperTest {
     void map_ok_asObject() {
         Object polylineAsObject = POLYLINE;
         LineString lineString = polylineDecoderMapper.map(polylineAsObject);
-        assertThat(lineString.toString()).isEqualTo(WKT_RESULT);
+        assertThat(lineString).hasToString(WKT_RESULT);
     }
 
     @Test
     void map_ok_null() {
         LineString lineString = polylineDecoderMapper.map(null);
-        assertThat(lineString.toString()).isEqualTo("LINESTRING EMPTY");
+        assertThat(lineString).hasToString("LINESTRING EMPTY");
     }
 
     @Test
