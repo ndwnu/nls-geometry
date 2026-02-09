@@ -1,7 +1,6 @@
 package nu.ndw.nls.geometry.merging;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,15 +15,15 @@ class GeometryCollectorsTest {
     void mergedToLineStrings_ok() {
         Collector<LineString, LineMerger, List<LineString>> mergedLineStrings =
                 GeometryCollectors.mergedToLineStrings();
-        assertNotNull(mergedLineStrings);
-        assertEquals(LineStringMergerCollector.class, mergedLineStrings.getClass());
+        assertThat(mergedLineStrings).isNotNull();
+        assertThat(mergedLineStrings.getClass()).isEqualTo(LineStringMergerCollector.class);
     }
 
     @Test
     void mergeToLineString_ok() {
         Collector<LineString, LineMerger, Optional<LineString>> lineStringCollector =
                 GeometryCollectors.mergeToLineString();
-        assertNotNull(lineStringCollector);
-        assertEquals(ToSingleLineStringMergerCollector.class, lineStringCollector.getClass());
+        assertThat(lineStringCollector).isNotNull();
+        assertThat(lineStringCollector.getClass()).isEqualTo(ToSingleLineStringMergerCollector.class);
     }
 }

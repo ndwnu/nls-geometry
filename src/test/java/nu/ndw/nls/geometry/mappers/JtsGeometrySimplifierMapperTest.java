@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -28,7 +28,7 @@ class JtsGeometrySimplifierMapperTest {
                 createLineString(COORDINATE_A, COORDINATE_B, COORDINATE_X, COORDINATE_SAME_VALUES_AS_X, COORDINATE_C,
                         COORDINATE_D));
 
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -40,7 +40,7 @@ class JtsGeometrySimplifierMapperTest {
                 createLineString(COORDINATE_A, COORDINATE_B, COORDINATE_X, COORDINATE_C, COORDINATE_D)
         );
 
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -51,7 +51,7 @@ class JtsGeometrySimplifierMapperTest {
                 0.000001, createLineString(COORDINATE_A, COORDINATE_B, COORDINATE_X, COORDINATE_C, COORDINATE_D)
         );
 
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -62,7 +62,7 @@ class JtsGeometrySimplifierMapperTest {
                 0.01, createLineString(COORDINATE_A, COORDINATE_B, COORDINATE_X, COORDINATE_C, COORDINATE_D)
         );
 
-        assertEquals(expected, result);
+        assertThat(result).isEqualTo(expected);
     }
 
     private LineString createLineString(Coordinate... coordinates) {

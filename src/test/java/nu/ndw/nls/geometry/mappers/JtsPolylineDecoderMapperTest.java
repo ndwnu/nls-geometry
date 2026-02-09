@@ -1,7 +1,7 @@
 package nu.ndw.nls.geometry.mappers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.junit.jupiter.api.Test;
@@ -18,20 +18,20 @@ class JtsPolylineDecoderMapperTest {
     @Test
     void map_ok() {
         LineString lineString = polylineDecoderMapper.map(POLYLINE);
-        assertEquals(WKT_RESULT, lineString.toString());
+        assertThat(lineString.toString()).isEqualTo(WKT_RESULT);
     }
 
     @Test
     void map_ok_asObject() {
         Object polylineAsObject = POLYLINE;
         LineString lineString = polylineDecoderMapper.map(polylineAsObject);
-        assertEquals(WKT_RESULT, lineString.toString());
+        assertThat(lineString.toString()).isEqualTo(WKT_RESULT);
     }
 
     @Test
     void map_ok_null() {
         LineString lineString = polylineDecoderMapper.map(null);
-        assertEquals("LINESTRING EMPTY", lineString.toString());
+        assertThat(lineString.toString()).isEqualTo("LINESTRING EMPTY");
     }
 
     @Test
