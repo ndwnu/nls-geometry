@@ -43,6 +43,6 @@ class JtsLineStringMapperTest {
         multiLineCoordinates.stream()
                 .flatMap(Collection::stream)
                 .forEach(coordinate ->
-                assertThat(Arrays.asList(result.getCoordinates()).contains(coordinate)).isTrue());
+                assertThat(Arrays.asList(result.getCoordinates())).contains(coordinate));
     }
 }

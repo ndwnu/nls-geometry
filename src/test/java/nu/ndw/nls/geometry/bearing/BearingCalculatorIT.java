@@ -43,8 +43,8 @@ class BearingCalculatorIT {
 
     @Test
     void bearingDelta_ok() {
-        assertThat(bearingCalculator.bearingDelta(0, 360)).isEqualTo(0);
-        assertThat(bearingCalculator.bearingDelta(360, 0)).isEqualTo(0);
+        assertThat(bearingCalculator.bearingDelta(0, 360)).isZero();
+        assertThat(bearingCalculator.bearingDelta(360, 0)).isZero();
         assertThat(bearingCalculator.bearingDelta(0, 181)).isEqualTo(179);
         assertThat(bearingCalculator.bearingDelta(1, 359)).isEqualTo(2);
     }

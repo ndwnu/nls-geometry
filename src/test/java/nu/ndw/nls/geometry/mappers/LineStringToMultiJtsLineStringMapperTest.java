@@ -31,8 +31,7 @@ class LineStringToMultiJtsLineStringMapperTest {
         MultiLineString expected = (MultiLineString)
                 wktReader.read("MULTILINESTRING ((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))");
 
-        assertThat(result.isPresent()).isTrue();
-        assertThat(result.get()).isEqualTo(expected);
+        assertThat(result).contains(expected);
     }
 
     @Test

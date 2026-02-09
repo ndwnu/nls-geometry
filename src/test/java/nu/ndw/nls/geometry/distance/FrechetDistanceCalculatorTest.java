@@ -44,7 +44,7 @@ class FrechetDistanceCalculatorTest {
         LineString q = geometryFactoryWgs84.createLineString(new Coordinate[]{new Coordinate(0.0, 0.0), new Coordinate(0.005, 0.0),
                 new Coordinate(0.01, 0.0)});
         double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(p, q);
-        assertThat(frechetDistance).isEqualTo(0);
+        assertThat(frechetDistance).isZero();
     }
 
     @Test
