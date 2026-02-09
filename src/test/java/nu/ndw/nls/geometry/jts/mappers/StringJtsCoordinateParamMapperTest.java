@@ -44,7 +44,7 @@ class StringJtsCoordinateParamMapperTest {
 
         String mapped = stringJtsCoordinateParamMapper.map(coordinates);
 
-        assertThat(mapped).isEqualTo("");
+        assertThat(mapped).isEmpty();
     }
 
     @Test
@@ -53,7 +53,7 @@ class StringJtsCoordinateParamMapperTest {
 
         String mapped = stringJtsCoordinateParamMapper.map(coordinates);
 
-        assertThat(mapped).isEqualTo("");
+        assertThat(mapped).isEmpty();
     }
 
     @Test
