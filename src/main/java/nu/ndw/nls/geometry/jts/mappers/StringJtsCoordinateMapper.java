@@ -1,24 +1,23 @@
 package nu.ndw.nls.geometry.jts.mappers;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StringParamJtsCoordinateMapper {
+public class StringJtsCoordinateMapper {
 
     /**
      * Maps a list of JTS coordinates to a string format that can be used as a path parameter
      * @param coordinates Jts coordinates
      * @return A string 5.383333,52.15;5.417114349703827,52.153908390414884
      */
-    public String map(List<Coordinate> coordinates) {
-        return Optional.ofNullable(coordinates)
-                .orElse(List.of())
+    public String map(@NonNull List<Coordinate> coordinates) {
+        return coordinates
                 .stream()
                 .map(this::mapCoordinateToCommmaSeparatedString)
                 .collect(Collectors.joining(";"));
@@ -29,7 +28,7 @@ public class StringParamJtsCoordinateMapper {
      * @param coordinate JTS coordinate
      * @return A string of longitude latitude, separated by a comma. Example: 5.417114349703827,52.153908390414884
      */
-    public String map(Coordinate coordinate) {
+    public String map(@NonNull Coordinate coordinate) {
         return this.mapCoordinateToCommmaSeparatedString(coordinate);
     }
 
