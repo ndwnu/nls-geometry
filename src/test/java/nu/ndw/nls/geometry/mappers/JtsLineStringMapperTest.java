@@ -1,7 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,8 +33,8 @@ class JtsLineStringMapperTest {
     void createMultiLineCoordinates_ok() {
         Coordinate[][] result = lineStringMapper.createMultiLineCoordinates(List.of(LINE_STRING_A, LINE_STRING_B));
 
-        assertEquals(2, Arrays.stream(result).count());
-        assertEquals(new Coordinate(5.672876, 52.154789), result[1][1]);
+        assertThat(Arrays.stream(result).count()).isEqualTo(2);
+        assertThat(result[1][1]).isEqualTo(new Coordinate(5.672876, 52.154789));
     }
 
     @Test
@@ -44,6 +43,6 @@ class JtsLineStringMapperTest {
         multiLineCoordinates.stream()
                 .flatMap(Collection::stream)
                 .forEach(coordinate ->
-                        assertTrue(Arrays.asList(result.getCoordinates()).contains(coordinate)));
+                assertThat(Arrays.asList(result.getCoordinates())).contains(coordinate));
     }
 }

@@ -1,7 +1,8 @@
 package nu.ndw.nls.geometry.distance;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.within;
 
 import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.distance.model.CoordinateAndBearing;
@@ -38,9 +39,9 @@ class FractionAndDistanceCalculatorIT {
     void calculateFractionAndDistance_ok() {
         FractionAndDistance fractionAndDistance = fractionAndDistanceCalculator.calculateFractionAndDistance(
                 LINE_STRING, new Coordinate(5.426716016, 52.17672277));
-        assertEquals(0.4953, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
-        assertEquals(1.6719, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
-        assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+        assertThat(fractionAndDistance.getFraction()).isCloseTo(0.4953, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getFractionDistance()).isCloseTo(1.6719, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getTotalDistance()).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
     }
 
     @Test
@@ -50,9 +51,9 @@ class FractionAndDistanceCalculatorIT {
         lineString.setSRID(0);
         FractionAndDistance fractionAndDistance = fractionAndDistanceCalculator.calculateFractionAndDistance(
                 lineString, new Coordinate(5.426716016, 52.17672277));
-        assertEquals(0.4953, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
-        assertEquals(1.6719, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
-        assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+        assertThat(fractionAndDistance.getFraction()).isCloseTo(0.4953, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getFractionDistance()).isCloseTo(1.6719, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getTotalDistance()).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
     }
 
 
@@ -70,18 +71,18 @@ class FractionAndDistanceCalculatorIT {
     void calculateFractionAndDistance_ok_beforeStartPointMinimum0() {
         FractionAndDistance fractionAndDistance = fractionAndDistanceCalculator.calculateFractionAndDistance(
                 LINE_STRING, new Coordinate(5.426702865, 52.176737201));
-        assertEquals(0.0, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
-        assertEquals(0.0, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
-        assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+        assertThat(fractionAndDistance.getFraction()).isCloseTo(0.0, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getFractionDistance()).isCloseTo(0.0, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getTotalDistance()).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
     }
 
     @Test
     void calculateFractionAndDistance_ok_afterEndPointMaximum1() {
         FractionAndDistance fractionAndDistance = fractionAndDistanceCalculator.calculateFractionAndDistance(
                 LINE_STRING, new Coordinate(5.426729913, 52.17670903));
-        assertEquals(1.0, fractionAndDistance.getFraction(), FRACTION_DISTANCE_DELTA);
-        assertEquals(3.3758, fractionAndDistance.getFractionDistance(), FRACTION_DISTANCE_DELTA);
-        assertEquals(3.3758, fractionAndDistance.getTotalDistance(), FRACTION_DISTANCE_DELTA);
+        assertThat(fractionAndDistance.getFraction()).isCloseTo(1.0, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getFractionDistance()).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
+        assertThat(fractionAndDistance.getTotalDistance()).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
     }
 
     @Test
@@ -95,11 +96,9 @@ class FractionAndDistanceCalculatorIT {
         LineString subLineString = fractionAndDistanceCalculator.getSubLineStringByLengthInMeters(originalLineString,
                 1);
 
-        assertEquals(
-                createLineString(
-                        new Coordinate(5.0, 53.0),
-                        new Coordinate(5.0, 53.00000898583448)),
-                subLineString);
+        assertThat(subLineString).isEqualTo(createLineString(
+                new Coordinate(5.0, 53.0),
+                new Coordinate(5.0, 53.00000898583448)));
     }
 
     @Test
@@ -123,13 +122,13 @@ class FractionAndDistanceCalculatorIT {
         LineString subLineString = fractionAndDistanceCalculator.getSubLineStringByLengthInMeters(originalLineString,
                 100000);
 
-        assertEquals(originalLineString, subLineString);
+        assertThat(subLineString).isEqualTo(originalLineString);
     }
 
     @Test
     void calculateLengthInMeters_ok() {
         double lengthInMeters = fractionAndDistanceCalculator.calculateLengthInMeters(LINE_STRING);
-        assertEquals(3.3758, lengthInMeters, FRACTION_DISTANCE_DELTA);
+        assertThat(lengthInMeters).isCloseTo(3.3758, within(FRACTION_DISTANCE_DELTA));
     }
 
     @Test
@@ -145,11 +144,11 @@ class FractionAndDistanceCalculatorIT {
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 0.5);
         // Because we use the geodetic calculator, the answer is expected to slightly deviate from 53.005, which would
         // be the result of simple Cartesian interpolation.
-        assertEquals(2, subLineString.getNumPoints());
-        assertEquals(5.0, subLineString.getCoordinateN(0).getX());
-        assertEquals(53.0, subLineString.getCoordinateN(0).getY());
-        assertEquals(5.0, subLineString.getCoordinateN(1).getX());
-        assertEquals(53.005, subLineString.getCoordinateN(1).getY(), COORDINATE_DELTA);
+        assertThat(subLineString.getNumPoints()).isEqualTo(2);
+        assertThat(subLineString.getCoordinateN(0).getX()).isEqualTo(5.0);
+        assertThat(subLineString.getCoordinateN(0).getY()).isEqualTo(53.0);
+        assertThat(subLineString.getCoordinateN(1).getX()).isEqualTo(5.0);
+        assertThat(subLineString.getCoordinateN(1).getY()).isCloseTo(53.005, within(COORDINATE_DELTA));
     }
 
     @Test
@@ -157,21 +156,21 @@ class FractionAndDistanceCalculatorIT {
         LineString originalLineString = createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01),
                 new Coordinate(5.0, 53.02));
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 0.5);
-        assertEquals(createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01)), subLineString);
+        assertThat(subLineString).isEqualTo(createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01)));
     }
 
     @Test
     void getSubLineString_ok_zero() {
         LineString originalLineString = createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01));
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 0.0);
-        assertEquals(createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.0)), subLineString);
+        assertThat(subLineString).isEqualTo(createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.0)));
     }
 
     @Test
     void getSubLineString_ok_one() {
         LineString originalLineString = createLineString(new Coordinate(5.0, 53.0), new Coordinate(5.0, 53.01));
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 1.0);
-        assertEquals(originalLineString, subLineString);
+        assertThat(subLineString).isEqualTo(originalLineString);
     }
 
     @Test
@@ -180,11 +179,11 @@ class FractionAndDistanceCalculatorIT {
         LineString subLineString = fractionAndDistanceCalculator.getSubLineString(originalLineString, 0.25, 0.75);
         // Because we use the geodetic calculator, the answer is expected to slightly deviate from 53.0025 and 53.0075,
         // which would be the result of simple Cartesian interpolation.
-        assertEquals(2, subLineString.getNumPoints());
-        assertEquals(5.0, subLineString.getCoordinateN(0).getX());
-        assertEquals(53.0025, subLineString.getCoordinateN(0).getY(), COORDINATE_DELTA);
-        assertEquals(5.0, subLineString.getCoordinateN(1).getX());
-        assertEquals(53.0075, subLineString.getCoordinateN(1).getY(), COORDINATE_DELTA);
+        assertThat(subLineString.getNumPoints()).isEqualTo(2);
+        assertThat(subLineString.getCoordinateN(0).getX()).isEqualTo(5.0);
+        assertThat(subLineString.getCoordinateN(0).getY()).isCloseTo(53.0025, within(COORDINATE_DELTA));
+        assertThat(subLineString.getCoordinateN(1).getX()).isEqualTo(5.0);
+        assertThat(subLineString.getCoordinateN(1).getY()).isCloseTo(53.0075, within(COORDINATE_DELTA));
     }
 
     @Test
@@ -207,7 +206,7 @@ class FractionAndDistanceCalculatorIT {
         LineString originalLineString = createLineString(FROM, TO);
         CoordinateAndBearing coordinateAndBearing = fractionAndDistanceCalculator.getCoordinateAndBearing(
                 originalLineString, 0.5);
-        assertEquals(149, coordinateAndBearing.bearing(), BEARING_DELTA);
+        assertThat(coordinateAndBearing.bearing()).isCloseTo(149, within(BEARING_DELTA));
     }
 
 

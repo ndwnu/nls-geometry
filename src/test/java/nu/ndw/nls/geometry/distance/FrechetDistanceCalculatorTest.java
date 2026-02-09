@@ -1,7 +1,8 @@
 package nu.ndw.nls.geometry.distance;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 import lombok.SneakyThrows;
 import nu.ndw.nls.geometry.factories.GeodeticCalculatorFactory;
@@ -25,7 +26,7 @@ class FrechetDistanceCalculatorTest {
         LineString lineShape = readWktFromFile("/test-data/siterecord_218928_line_shape.txt");
         LineString fcdGeometry = readWktFromFile("/test-data/siterecord_218928_fcd_geometry.txt");
         double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineShape, fcdGeometry);
-        assertEquals(7.978, frechetDistance, DELTA_NEAREST_MILLIMETRE);
+        assertThat(frechetDistance).isCloseTo(7.978, within(DELTA_NEAREST_MILLIMETRE));
     }
 
     @Test
@@ -33,7 +34,7 @@ class FrechetDistanceCalculatorTest {
         LineString lineShape = readWktFromFile("/test-data/siterecord_200732_line_shape.txt");
         LineString fcdGeometry = readWktFromFile("/test-data/siterecord_200732_fcd_geometry.txt");
         double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineShape, fcdGeometry);
-        assertEquals(2153.04, frechetDistance, DELTA_NEAREST_MILLIMETRE);
+        assertThat(frechetDistance).isCloseTo(2153.04, within(DELTA_NEAREST_MILLIMETRE));
     }
 
     @Test
@@ -43,15 +44,14 @@ class FrechetDistanceCalculatorTest {
         LineString q = geometryFactoryWgs84.createLineString(new Coordinate[]{new Coordinate(0.0, 0.0), new Coordinate(0.005, 0.0),
                 new Coordinate(0.01, 0.0)});
         double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(p, q);
-        assertEquals(0, frechetDistance);
+        assertThat(frechetDistance).isZero();
     }
 
     @Test
     void calculateFrechetDistanceInMetresFromWgs84_exception_notWgs84() {
         LineString lineStringRd = new GeometryFactoryRijksdriehoek().createLineString();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineStringRd, lineStringRd));
-        assertEquals("SRID must be WGS84, but is RIJKSDRIEHOEK", exception.getMessage());
+        IllegalArgumentException exception = assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(lineStringRd, lineStringRd)).actual();
+        assertThat(exception.getMessage()).isEqualTo("SRID must be WGS84, but is RIJKSDRIEHOEK");
     }
 
     @SneakyThrows

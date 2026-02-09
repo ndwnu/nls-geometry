@@ -1,7 +1,6 @@
 package nu.ndw.nls.geometry.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
@@ -21,8 +20,8 @@ class JtsCoordinateMapperTest {
     @Test
     void mapToCoordinatesRounded_ok(){
         Coordinate[] result = coordinateMapper.mapToCoordinatesRounded(ORIGINAL_COORDINATES, 3);
-        assertEquals(4.964, result[0].x);
-        assertEquals(52.526, result[1].y);
+        assertThat(result[0].x).isEqualTo(4.964);
+        assertThat(result[1].y).isEqualTo(52.526);
     }
     @Test
     void mapToDoubles_ok(){
@@ -34,7 +33,7 @@ class JtsCoordinateMapperTest {
 
         List<List<Double>> result = coordinateMapper.mapToDoubles(geometry);
 
-        assertEquals(ORIGINAL_COORDINATES, result);
+        assertThat(result).isEqualTo(ORIGINAL_COORDINATES);
     }
 
 
@@ -45,7 +44,7 @@ class JtsCoordinateMapperTest {
 
         List<List<Double>> result = coordinateMapper.mapToDoubles(geometry);
 
-        assertEquals(List.of(), result);
+        assertThat(result).isEqualTo(List.of());
     }
 
 

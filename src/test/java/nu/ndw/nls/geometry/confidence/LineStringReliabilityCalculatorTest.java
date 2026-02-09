@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.confidence;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import nu.ndw.nls.geometry.distance.FrechetDistanceCalculator;
@@ -27,12 +27,12 @@ class LineStringReliabilityCalculatorTest {
     @Test
     void calculateLineStringReliability_ok() {
         when(frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(originalGeometry, matchGeometry)).thenReturn(10.0);
-        assertEquals(85.0, lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry));
+        assertThat(lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry)).isEqualTo(85.0);
     }
 
     @Test
     void calculateLineStringReliability_ok_minimumValue() {
         when(frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(originalGeometry, matchGeometry)).thenReturn(1000.0);
-        assertEquals(0.0, lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry));
+        assertThat(lineStringReliabilityCalculator.calculateLineStringReliability(originalGeometry, matchGeometry)).isEqualTo(0.0);
     }
 }

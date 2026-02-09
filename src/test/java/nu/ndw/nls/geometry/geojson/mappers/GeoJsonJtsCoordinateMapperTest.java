@@ -1,7 +1,6 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +41,7 @@ class GeoJsonJtsCoordinateMapperTest {
         when(coordinate.getX()).thenReturn(X);
         when(coordinate.getY()).thenReturn(Y);
 
-        assertEquals(List.of(X, Y), geoJsonCoordinateMapper.map(coordinate));
+        assertThat(geoJsonCoordinateMapper.map(coordinate)).isEqualTo(List.of(X, Y));
 
         verify(coordinate).getX();
         verify(coordinate).getY();
@@ -56,8 +55,7 @@ class GeoJsonJtsCoordinateMapperTest {
         when(roundDoubleMapper.round(X, roundDoubleConfiguration)).thenReturn(X_ROUNDING_DECIMAL_PLACES_2);
         when(roundDoubleMapper.round(Y, roundDoubleConfiguration)).thenReturn(Y_ROUNDING_DECIMAL_PLACES_2);
 
-        assertEquals(List.of(X_ROUNDING_DECIMAL_PLACES_2, Y_ROUNDING_DECIMAL_PLACES_2),
-                geoJsonCoordinateMapper.map(coordinate, roundDoubleConfiguration));
+        assertThat(geoJsonCoordinateMapper.map(coordinate, roundDoubleConfiguration)).isEqualTo(List.of(X_ROUNDING_DECIMAL_PLACES_2, Y_ROUNDING_DECIMAL_PLACES_2));
 
         verify(roundDoubleMapper).round(X, roundDoubleConfiguration);
         verify(roundDoubleMapper).round(Y, roundDoubleConfiguration);
