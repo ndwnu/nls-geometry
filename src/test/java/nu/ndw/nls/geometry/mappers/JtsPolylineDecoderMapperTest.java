@@ -10,8 +10,7 @@ import org.locationtech.jts.geom.LineString;
 class JtsPolylineDecoderMapperTest {
 
     private static final String POLYLINE = "{euyHika^NFPFNFzBtAB@VN@@F@";
-    private static final String WKT_RESULT = "LINESTRING (5.09125 51.5595, 5.09113 51.55925, 5.0906 51.55848, "
-            + "5.09059 51.55844)";
+    private static final String WKT_RESULT = "LINESTRING (5.09125 51.5595, 5.09113 51.55925, 5.0906 51.55848, 5.09059 51.55844)";
 
     private final JtsPolylineDecoderMapper polylineDecoderMapper = new JtsPolylineDecoderMapper(
             new GeometryFactoryWgs84());
@@ -34,7 +33,6 @@ class JtsPolylineDecoderMapperTest {
         LineString lineString = polylineDecoderMapper.map(null);
         assertEquals("LINESTRING EMPTY", lineString.toString());
     }
-
 
     @Test
     void map_exception_notAString() {

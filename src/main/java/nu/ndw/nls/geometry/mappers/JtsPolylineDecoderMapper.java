@@ -9,8 +9,8 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class JtsPolylineDecoderMapper {
 
     private static final int DECODE_PRECISION_5_DECIMALS = 5;
