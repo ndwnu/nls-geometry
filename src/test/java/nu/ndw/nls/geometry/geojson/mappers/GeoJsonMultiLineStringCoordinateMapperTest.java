@@ -1,6 +1,6 @@
 package nu.ndw.nls.geometry.geojson.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -56,7 +56,7 @@ class GeoJsonMultiLineStringCoordinateMapperTest {
 
         List<List<List<Double>>> coordinates = geoJsonMultiLineStringCoordinateMapper.map(multiLineString);
 
-        assertEquals(List.of(coordinatesA, coordinatesB, coordinatesC), coordinates);
+        assertThat(coordinates).isEqualTo(List.of(coordinatesA, coordinatesB, coordinatesC));
     }
 
     @Test
@@ -74,6 +74,6 @@ class GeoJsonMultiLineStringCoordinateMapperTest {
         List<List<List<Double>>> coordinates = geoJsonMultiLineStringCoordinateMapper.map(multiLineString,
                 roundDoubleConfiguration);
 
-        assertEquals(List.of(coordinatesA, coordinatesB, coordinatesC), coordinates);
+        assertThat(coordinates).isEqualTo(List.of(coordinatesA, coordinatesB, coordinatesC));
     }
 }
