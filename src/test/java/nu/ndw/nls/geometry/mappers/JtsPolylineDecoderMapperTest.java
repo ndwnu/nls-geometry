@@ -18,7 +18,7 @@ class JtsPolylineDecoderMapperTest {
     @Test
     void map_ok() {
         LineString lineString = polylineDecoderMapper.map(POLYLINE);
-        assertThat(lineString.toString()).isEqualTo(WKT_RESULT);
+        assertThat(lineString).hasToString(WKT_RESULT);
     }
 
     @Test
