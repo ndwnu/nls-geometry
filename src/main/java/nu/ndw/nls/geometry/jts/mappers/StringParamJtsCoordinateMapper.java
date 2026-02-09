@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StringJtsCoordinateParamMapper {
+public class StringParamJtsCoordinateMapper {
 
     /**
      * Maps a list of JTS coordinates to a string format that can be used as a path parameter
