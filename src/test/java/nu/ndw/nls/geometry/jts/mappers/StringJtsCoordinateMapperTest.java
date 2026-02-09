@@ -50,9 +50,7 @@ class StringJtsCoordinateMapperTest {
 
     @Test
     void map_coordinateNull() {
-        List<Coordinate> coordinates = null;
-
-        assertThatThrownBy(() -> stringJtsCoordinateMapper.map(coordinates))
+        assertThatThrownBy(() -> stringJtsCoordinateMapper.map((List<Coordinate>)null))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -67,9 +65,7 @@ class StringJtsCoordinateMapperTest {
 
     @Test
     void map_coordinate_null() {
-        Coordinate coordinate = null;
-
-        assertThatThrownBy(() -> stringJtsCoordinateMapper.map(coordinate))
+        assertThatThrownBy(() -> stringJtsCoordinateMapper.map((Coordinate)null))
                 .isInstanceOf(NullPointerException.class);
     }
 
