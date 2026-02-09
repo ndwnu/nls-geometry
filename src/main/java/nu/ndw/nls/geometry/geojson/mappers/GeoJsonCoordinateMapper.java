@@ -30,6 +30,7 @@ public class GeoJsonCoordinateMapper {
     /**
      * @deprecated Use the dedicated JTS coordinate to String param mapper {@link StringJtsCoordinateMapper#map(List)} instead
      */
+    @SuppressWarnings("java:S6355")
     @Deprecated
     public String mapList(List<Coordinate> coordinates) {
         return Optional.ofNullable(coordinates)
