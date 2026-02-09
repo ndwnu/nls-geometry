@@ -106,10 +106,4 @@ class GeoJsonJtsCoordinateMapperTest {
 
         assertThat(mapped).isBlank();
     }
-
-    @Test
-    void mapCoordinate_ok() {
-        String result = geoJsonCoordinateMapper.mapCoordinate(new Coordinate(5.28232, 51.87819));
-        assertThat(result).isEqualTo("5.28232,51.87819");
-    }
 }

@@ -30,12 +30,9 @@ public class GeoJsonCoordinateMapper {
         return Optional.ofNullable(coordinates)
                 .orElse(List.of())
                 .stream()
+                .map(this::map)
                 .map(this::mapCoordinate)
                 .collect(Collectors.joining(";"));
-    }
-
-    public String mapCoordinate(Coordinate coordinate) {
-        return this.mapCoordinate(this.map(coordinate));
     }
 
     private String mapCoordinate(List<Double> doubles) {
