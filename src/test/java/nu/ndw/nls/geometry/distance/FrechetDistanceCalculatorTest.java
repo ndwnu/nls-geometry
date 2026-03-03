@@ -54,6 +54,23 @@ class FrechetDistanceCalculatorTest {
         assertThat(exception.getMessage()).isEqualTo("SRID must be WGS84, but is RIJKSDRIEHOEK");
     }
 
+    @Test
+    void calculateFrechetDistanceInMetresFromWgs84_ok_invalidLineStringsWithTwoEqualPoints() {
+        GeometryFactoryWgs84 gf = new GeometryFactoryWgs84();
+        LineString p = gf.createLineString(new Coordinate[] {
+                new Coordinate(1.0, 2.0),
+                new Coordinate(1.0, 2.0)
+        });
+        LineString q = gf.createLineString(new Coordinate[] {
+                new Coordinate(1.0, 2.0),
+                new Coordinate(1.0, 2.0)
+        });
+
+        double frechetDistance = frechetDistanceCalculator.calculateFrechetDistanceInMetresFromWgs84(p, q);
+
+        assertThat(frechetDistance).isZero();
+    }
+
     @SneakyThrows
     private LineString readWktFromFile(String name) {
         return (LineString) new WKTFileReader(FrechetDistanceCalculatorTest.class.getResource(name).getFile(), wktReader).read().getFirst();

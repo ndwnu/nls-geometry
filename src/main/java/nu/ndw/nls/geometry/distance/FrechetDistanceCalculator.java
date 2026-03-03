@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 public class FrechetDistanceCalculator {
 
     private static final double POINT_DISTANCE_MAX_1_METRE = 0.00001;
+    private static final int MINIMUM_LINESTRING_COORDINATE_COUNT = 2;
 
     private final GeodeticCalculatorFactory geodeticCalculatorFactory;
 
@@ -81,9 +82,27 @@ public class FrechetDistanceCalculator {
         return maxDist;
     }
 
-    private static LineString densify(LineString l) {
-        Densifier densifier = new Densifier(l);
+    private static LineString densify(LineString lineString) {
+        if (isInvalidLineString(lineString)) {
+            return lineString;
+        }
+
+        Densifier densifier = new Densifier(lineString);
         densifier.setDistanceTolerance(POINT_DISTANCE_MAX_1_METRE);
         return (LineString) densifier.getResultGeometry();
+    }
+
+    private static boolean isInvalidLineString(LineString lineString) {
+        if (lineString.getNumPoints() < MINIMUM_LINESTRING_COORDINATE_COUNT) {
+            return true;
+        }
+
+        if (lineString.getNumPoints() == MINIMUM_LINESTRING_COORDINATE_COUNT) {
+            Coordinate start = lineString.getCoordinateN(0);
+            Coordinate end = lineString.getCoordinateN(1);
+            return start.equals2D(end);
+        }
+
+        return false;
     }
 }
