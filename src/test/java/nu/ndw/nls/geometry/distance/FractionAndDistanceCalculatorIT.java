@@ -10,15 +10,12 @@ import nu.ndw.nls.geometry.distance.model.FractionAndDistance;
 import nu.ndw.nls.geometry.factories.GeometryFactoryRijksdriehoek;
 import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GeometryConfiguration.class})
+@SpringJUnitConfig(classes = GeometryConfiguration.class)
 class FractionAndDistanceCalculatorIT {
 
     private static final Coordinate FROM = new Coordinate(5.42670371, 52.17673587);

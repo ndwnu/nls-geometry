@@ -5,14 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import nu.ndw.nls.geometry.GeometryConfiguration;
 import nu.ndw.nls.geometry.bearing.model.BearingFilter;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GeometryConfiguration.class})
+@SpringJUnitConfig(classes = GeometryConfiguration.class)
 class BearingCalculatorIT {
 
     private static final BearingFilter BEARING_FILTER_WITH_WRAPAROUND = new BearingFilter(0, 10);

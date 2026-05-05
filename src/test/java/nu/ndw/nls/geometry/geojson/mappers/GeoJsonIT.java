@@ -6,16 +6,13 @@ import java.util.List;
 import lombok.SneakyThrows;
 import nu.ndw.nls.geometry.config.GeoJsonMapperConfiguration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GeoJsonMapperConfiguration.class})
+@SpringJUnitConfig(classes = GeoJsonMapperConfiguration.class)
 class GeoJsonIT {
 
     @Autowired

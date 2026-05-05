@@ -6,17 +6,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import lombok.SneakyThrows;
 import nu.ndw.nls.geometry.GeometryConfiguration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GeometryConfiguration.class})
+@SpringJUnitConfig(classes = GeometryConfiguration.class)
 class MultiLineStringPointGeometryMatcherIT {
 
     private static final String WKT_MULTI_LINE_STRING = """
