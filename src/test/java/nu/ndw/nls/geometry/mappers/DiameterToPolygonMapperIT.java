@@ -8,16 +8,13 @@ import nu.ndw.nls.geometry.factories.GeometryFactoryWgs84;
 import org.assertj.core.data.Offset;
 import org.geotools.referencing.GeodeticCalculator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GeometryMapperConfiguration.class})
+@SpringJUnitConfig(classes = GeometryMapperConfiguration.class)
 class DiameterToPolygonMapperIT {
 
     @Autowired
