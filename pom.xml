@@ -36,26 +36,34 @@
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.geotools</groupId>
+        <artifactId>gt-bom</artifactId>
+        <version>${geotools.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-epsg-hsql</artifactId>
-      <version>${geotools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-referencing</artifactId>
-      <version>${geotools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-epsg-extension</artifactId>
-      <version>${geotools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-geojson-core</artifactId>
-      <version>${geotools.version}</version>
     </dependency>
 
     <dependency>
@@ -133,17 +141,6 @@
       </snapshots>
       <releases>
         <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>osgeo-snapshot</id>
-      <name>OSGeo Snapshot Repository</name>
-      <url>https://repo.osgeo.org/repository/snapshot/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
       </releases>
     </repository>
     <repository>
