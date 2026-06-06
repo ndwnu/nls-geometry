@@ -33,7 +33,7 @@
     <mockito.version>5.23.0</mockito.version>
     <assertj.version>3.27.7</assertj.version>
     <mapbox-sdk-geojson.version>5.8.0</mapbox-sdk-geojson.version>
-    <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
