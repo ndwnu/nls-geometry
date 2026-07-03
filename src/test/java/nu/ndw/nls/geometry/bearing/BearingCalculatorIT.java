@@ -47,6 +47,15 @@ class BearingCalculatorIT {
     }
 
     @Test
+    void bearingReverse_ok() {
+        assertThat(bearingCalculator.reverse(360)).isEqualTo(180);
+        assertThat(bearingCalculator.reverse(0)).isEqualTo(180);
+        assertThat(bearingCalculator.reverse(180)).isZero();
+        assertThat(bearingCalculator.reverse(180.25)).isEqualTo(.250);
+        assertThat(bearingCalculator.reverse(-1000)).isEqualTo(-100);
+    }
+
+    @Test
     void calculateBearing_with_azimuth_minus_ok_should_return_positive() {
         var fromCoordinate = new Coordinate(0.0, 1.0);
         var toCoordinate = new Coordinate(-1.0, -2.0);
