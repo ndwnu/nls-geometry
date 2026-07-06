@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class BearingCalculator {
 
     private static final int MAX_BEARING = 360;
+    private static final int REVERSE_BEARING_OFFSET = 180;
 
     private final GeodeticCalculatorFactory geodeticCalculatorFactory;
 
@@ -38,5 +39,9 @@ public class BearingCalculator {
 
     public double normaliseBearing(double bearing) {
         return (bearing + MAX_BEARING) % MAX_BEARING;
+    }
+
+    public double reverse(double bearing) {
+        return normaliseBearing(bearing + REVERSE_BEARING_OFFSET);
     }
 }
